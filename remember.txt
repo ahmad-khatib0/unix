@@ -1,0 +1,45 @@
+? fro checking a option,
+set is? 
+set hls?  //highlight search 
+
+
+the letter x for cutting 
+the letter y for copying (yanking)
+the letter p for pasting (yanking)
+the letter d for deleting 
+the letter c for changing 
+the letter a for inserting mode 
+
+the letter o for inseting lines
+the letter u for undo changes 
+the letter ^r redo 
+the letter shift+r to replace mode 
+the letter g for text transformation 
+ 
+the letter j for joining lines 
+the letter f for searching 
+
+f + char 
+f + char + ; to repeat the same search 
+f + char + , to repeat the same search  in reverse 
+t + char places the cursor before this matched char in one char 
+T + char places the cursor after this matched char in one char 
+count + f + char // ie 2fr finds the second match 
+dtw delete until the matched w letter 
+all of these for the same line 
+
+/and  // search for and word on multiple lines 
+n go to the next match 
+/and and then change the matches  if you want and then n to go the next match and then , to repeat the replacing 
+?to    //to search backward 
+pca a word, and put # that moves you to the last match 
+pca a word and then put * to find the next match (entire word only)
+d /This  //delete until This
+"an then /point  //copy from n letter until matches point word 
+:s/net/org/g     //replace net with org , g is flag which will match every occurrence on a line 
+:1,6s/for/FOR/g   // chang for with FOR from line number 1 to line 5 
+.,$       //current line => last line 
+%         //all lines in file  or : 1,$ same thing  
+:pattern-1/,/pattern-2/s/old/new/g       //ie :Global_Config/,/Local_Config/s/.net/.com/g 
+replace .net with .com in this range       //ie 2:  :Local/,$s/net/org/g
+//ie 3:  :s#/var/spool#/usr/local#    replace /var/spool with /usr/local 

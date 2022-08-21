@@ -21,3 +21,9 @@ You can even get help with :help.
 The short version of the :help command is :h
 
 To switch between the help window and the editing window, use CTRL-W CTRL-W
+
+:help :q + ctrt+d will autocomplete the existing commands for you
+
+for example in the help you will see: Insert text before the curson [count] times.
+so put the cursor on the ] symbol and press ctrl + ] to get help about it
+

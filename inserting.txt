@@ -5,22 +5,22 @@ Hello, my name is Jason.
 my name is Jason.
 
 Once upon a time.
-Oce upon a time.
+Oce upon a time.//pca (put cursor above ) O letter and press a 
 
 There was no possibility of taking a walk that day.
-There was no possibility of taking a walk that
+There was no possibility of taking a walk that // press A 
 
-What is 2 + 2?  Answer on the line below:
+What is 2 + 2?  Answer on the line below:// press o
 
-What is 3 + 1?  Answer on the line above:
+What is 3 + 1?  Answer on the line above: //press O
 
-Create a line of asterisks below:
+Create a line of asterisks below: //80+i then * then esc 
 
-Create 5 lines that begin with "#".
+Create 5 lines that begin with "#". //5+o then # then # 
 
 Create 4 lines that begin with "10.11.12.".
 
-Replace me!
+Replace me! //shift + r
 
 The dog chased the mouse.
 
@@ -44,15 +44,15 @@ the cat chased the mouse.
 
 the cat chased the mouse.
 
-Make uppEr uppercase.
+Make uppEr uppercase. // gU
 
-Make This All Uppercase.
+Make This All Uppercase. //gUU
 
-Make LOwER lowercase.
+Make LOwER lowercase. //g~
 
-Make This All Lowercase.
+Make This All Lowercase. //g~~
 
-The cat chased
+The cat chased //J to join lines
 the mouse.
 
 The cat chased.
@@ -61,7 +61,7 @@ The mouse ran.
 3.
 4159
 
-Thing 1
+Thing 1 // 3J join three lines 
 Thing 2
 Thing 3
 

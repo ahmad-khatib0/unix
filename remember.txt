@@ -1,7 +1,7 @@
 ? fro checking a option,
 set is? 
 set hls?  //highlight search 
-
+set number  //number lines 
 
 the letter x for cutting 
 the letter y for copying (yanking)
@@ -14,6 +14,7 @@ the letter o for inseting lines
 the letter u for undo changes 
 the letter ^r redo 
 the letter shift+r to replace mode 
+the letter r to replace one char 
 the letter g for text transformation 
  
 the letter j for joining lines 
@@ -43,3 +44,32 @@ d /This  //delete until This
 :pattern-1/,/pattern-2/s/old/new/g       //ie :Global_Config/,/Local_Config/s/.net/.com/g 
 replace .net with .com in this range       //ie 2:  :Local/,$s/net/org/g
 //ie 3:  :s#/var/spool#/usr/local#    replace /var/spool with /usr/local 
+
+
+//all da or ca ... commands can be replaced with di, ca... , so for example da. a stands for   
+//all or around, and i stands for inner
+das                 //delete a sentence 
+daw                 //delete a word
+dap                 //delete a paragraph
+di[  or di]         //delete what inside an array 
+da[  or da]         //delete the array, (with the brackets)
+di(  or di)         //delete what inside parentheses
+ya<  or ya>         //yank what inside the tag,
+dat                 //delete a tag (with its nested tags)
+dit                 //delete inner tag, 
+di{  or di}         //delete what inside an object 
+ca"  or ci' or `    //change what outside or inside '' or "" or `` 
+
+q+reg-char        //start recoding a macro(keystrokes)
+q                 //to stop recording macro
+@+reg-char        //apply the recorded macro
+@@                //repeat the last macro
+:27,36normal @d   //apply d macro from 27 to 36 lines 
+//to edit registered macro, just paste it from the reg and edit it, and yank it back
+//store global macro in .vimrc:  let @d = '0:s/"/'/g^M":;:/<80>kbs/,//^'
+
+df@      //delete until and including @ 
+
+//to know which character is represented by vim, press ctrl+v than your needed character
+// esc key represented by ^[ 
+// enter key represented by ^M

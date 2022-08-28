@@ -109,3 +109,62 @@ ctrl-v start blockwise visual mode // TIP: its greet replacement for shift+ctrl+
 // esc key represented by ^[ 
 // enter key represented by ^M
 // tap key represented by ^I
+
+
+:e  test.txt     //to create a file using vim 
+:color           //list vim color schema
+:map             //see current defined maps 
+:mkvimrc         //make vimrc file 
+:h option-list   //available options 
+:options         //read brief info about options 
+:h 'option'      //read about an option 
+
+//vim settings and configuration 
+:set             //to see which options are set to be deffer than their default values  
+:set history&    //restore something to its default settings 
+set history=1000 //1000 itmes in the history
+set ruler        //show the cursor position 
+set showcmd      //" show incomplete commands
+set scrolloff=5  //" keep 5 lines above when reposition the screen (z + enter) 
+set hlsearch
+set incsearch    //" highlight matching text as we type 
+set ignorecase
+set smartcase    //" ignore the ignorecase option when type uppercase letters 
+set number
+set backup       //" keeps a backup of the file you're editing before saving it, (ends with ~)
+set bex=_edited  //(backup extension), the suffix of the backup files 
+set lbr          //don't break the word on wapping 
+set ai           //auto indent, preserve the indenting when you insert a new line 
+set sa           //smart indent, ie will indent the } correctly when you insert it 
+set bg=dark      // or light ...
+color slate      //set color schema
+:source .vimrc   //to reload it 
+
+// the map command is like:    map KEY KEYSTROKES  ie:
+map <F2> iAhmad Khatib<CR>123 Eseneler Main Street<CR> AnyTown, IST<CR><ESC>
+//so anytime you press f2 this instructions will be executed, (similar to macros)
+//you can to bind a functionality to a combination of your desired keys, ie 
+//the following command will make saving file quicker by pressing \w 
+map <leader>w :w!<CR>
+//important note: if you didn't use the leader here (\) the w command will be overwritten
+let mapleader=","         // change the default leader character (which is \)
+//another note: if you changed the leader character, put it above any specified map in order to work first
+vmap something   //means this key mapping is available in visual mode only, nmap  :normal mode ,,,,
+by default key mapping are recursive, so if you used a mapped key in another key mapping it get expanded
+there as well, in speaking of which, ie vnoremap disables this behavior
+
+" vim: set ft=vim :         //this called modeline, ie it force vim to 
+//treat this file a vim file, ie if you have file written in C and doesn't end with 
+//an extension   " vim: set ft=c :   will force vim to treat it like so 
+
+///////mapping keys representor
+<BS>           Backspace                  <Right>        Right arrow
+<CR>           Enter                      <Insert>       Insert              
+<Enter>        Enter                      <Del>          Delete
+<Return>       Enter                      <Home>         Home
+<Esc>          Escape                     <End>          End
+<Space>        Space                      <PageUp>       Page-Up
+<Up>Up         arrow                      <PageDown>     Page-Down
+<Down>         Down arrow                 <Tab>          Tab
+<Left>         Left arrow                 <bar>          '|'
+<C-X>          Ctrl-X                     <F1>-<F12>     Function keys

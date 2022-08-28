@@ -1,7 +1,15 @@
 ? fro checking a option,
+set shiftwidth=4 // to set an option 
 set is? 
-set hls?  //highlight search 
-set number  //number lines 
+set hls?        //highlight search 
+set number      //number lines 
+set shiftwidth  //indent size
+set tabstop     //tab indent size
+set expandtab   //ie if shiftwidth is 8 and tabstop is 8 and expandtab is off , so if you 
+//preformed a right shift operation a tab will be inserted 
+//it's better to turn this option on to see the representing spaces in list mode not the tap (^I character)
+set list        //if this mode is on, you will see the representing tap shown not the spaces 
+
 
 the letter x for cutting 
 the letter y for copying (yanking)
@@ -69,7 +77,35 @@ q                 //to stop recording macro
 //store global macro in .vimrc:  let @d = '0:s/"/'/g^M":;:/<80>kbs/,//^'
 
 df@      //delete until and including @ 
+>> or << //shift a line 
+>i{      //shift what inside a block 
+
+///// note: for example gv works for linewise and blockwise mode, and other also
+-v to start visual mode
+V to start linewise visual mode 
+ctrl-v start blockwise visual mode // TIP: its greet replacement for shift+ctrl+alt in vscode 
+    o                 //moves cursor to the opposite of the highlight 
+    iw                //select the word, also there are: ip, as......
+    i} or a[ or ....  //to select what outside or inside a block 
+    ap                //select a paragraph
+    gv                //back to most recent highlighting 
+    U                 // make highlighted uppercase, u for lowercase 
+    O                 // moves cursor to the opposite highlighted on same line 
+    $                 //select until the end of the highlighted text 
+    ><                // to shift highlighted text 
+    // lowercase i or a dose'nt work in visual mode, only A or I
+
+    //start V, highlight what you want, thane press :  and you will be in the command mode, 
+    //so '>,<'  '> is the start and '< is then end of the range, ie you can to append : 
+    // s/usa/USA/ to replace usa with USA in those lines 
+    // select something with the ^v, go to command mode: , append center, the text will be centered 
+    // or center 40 so the text will be centered based on 40 columns 
+    //ce is shortcut for center.. left will place the text in the left. le6 will move the text 6 characters 
+    //from the beginning, ri or right will move it to right, ri60 will justify it 60 characters from the right.
+    //position a text in center, and then if you want replace the white characters with the desired beginning text  
+    //so now your centered positioned text will remain in the center 
 
 //to know which character is represented by vim, press ctrl+v than your needed character
 // esc key represented by ^[ 
 // enter key represented by ^M
+// tap key represented by ^I

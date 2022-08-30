@@ -168,3 +168,37 @@ there as well, in speaking of which, ie vnoremap disables this behavior
 <Down>         Down arrow                 <Tab>          Tab
 <Left>         Left arrow                 <bar>          '|'
 <C-X>          Ctrl-X                     <F1>-<F12>     Function keys
+
+
+
+///// buffers (files in vim term) 
+set hidden                           //allows you to switch buffers without saving changes 
+:ls or :buffers                      //to see opened files 
+:buffer+number or + filename         //to open this file 
+:b + ^D                              //will give you a list to chose from 
+:bn or :bnext                        //to go to next file in buffer list 
+:bp or :bprevious                    //to go to previous buffer in buffer list
+:bf                                  //to go to first buffer 
+:bl                                  //to go to last buffer 
+ctrl+^                               //to go to recently opened buffer
+:b#                                  //to go to recently opened buffer
+:qall!                               //abort all changes to buffers 
+:wall                                //save all changes 
+:badd                                //add a file to buffer list without opining it 
+:bd num|name|rang                    //delete a buffer from list 
+:&bd                                 //delete a buffers 
+:bufdo set nu                        //enable line numbers for all buffers 
+:bufdo %s/#/@/g | w                  //replace in multiple buffers 
+:E                                   //folder explorer
+:bd                                  //to close explorer
+
+//////////// windows /////////////////////////////
+:sp  or ^w s                         //split a window
+:sp  buffer                          //add to split window
+:vs  or ^w v                         //split horizontally
+:vs  buffer                          //add to split window horizontally 
+:q   or  ^w q                        //close a window
+:on  or :only  or  ^w o              //close all except current window
+^w + + | - | > | < | =               //change window size
+:ball                                //open all buffers 
+:windo %s/#/@/g                      //replace in multiple windows 

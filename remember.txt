@@ -118,6 +118,8 @@ ctrl-v start blockwise visual mode // TIP: its greet replacement for shift+ctrl+
 :h option-list   //available options 
 :options         //read brief info about options 
 :h 'option'      //read about an option 
+"+yy             //yank to the system clipboard
+
 
 //vim settings and configuration 
 :set             //to see which options are set to be deffer than their default values  
@@ -135,10 +137,13 @@ set backup       //" keeps a backup of the file you're editing before saving it,
 set bex=_edited  //(backup extension), the suffix of the backup files 
 set lbr          //don't break the word on wapping 
 set ai           //auto indent, preserve the indenting when you insert a new line 
-set sa           //smart indent, ie will indent the } correctly when you insert it 
+set si           //smart indent, ie will indent the } correctly when you insert it 
 set bg=dark      // or light ...
 color slate      //set color schema
 :source .vimrc   //to reload it 
+:set clipboard=unnamedplus    //allow you to past,copy..... from and to system clipboard directly 
+
+
 
 // the map command is like:    map KEY KEYSTROKES  ie:
 map <F2> iAhmad Khatib<CR>123 Eseneler Main Street<CR> AnyTown, IST<CR><ESC>
@@ -202,3 +207,13 @@ ctrl+^                               //to go to recently opened buffer
 ^w + + | - | > | < | =               //change window size
 :ball                                //open all buffers 
 :windo %s/#/@/g                      //replace in multiple windows 
+
+
+//////////////////plugins ///////////////////////
+O                                    //open folder recursively 
+X                                    //unfold folder 
+^p                                   //show files using ctrl-p plugin
+^x  or ^v                            //open file horizontally or vertically 
+:packadd plugin-name                 //enable a plugin 
+:pa tabular  then  Tap /|/r4         //will align all | with 4 spaces              
+\\w  or \\k  or \\s                  //search and navigate using easymotion

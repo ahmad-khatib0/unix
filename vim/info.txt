@@ -6,7 +6,7 @@ set number      //number lines
 set shiftwidth  //indent size
 set tabstop     //tab indent size
 set expandtab   //ie if shiftwidth is 8 and tabstop is 8 and expandtab is off , so if you 
-//preformed a right shift operation a tab will be inserted 
+//pereformed a right shift operation a tab will be inserted 
 //it's better to turn this option on to see the representing spaces in list mode not the tap (^I character)
 set list        //if this mode is on, you will see the representing tap shown not the spaces 
 
@@ -122,9 +122,9 @@ ctrl-v start blockwise visual mode // TIP: its greet replacement for shift+ctrl+
 
 
 //vim settings and configuration 
-:set             //to see which options are set to be deffer than their default values  
+:set             //to see which options are set to be deffernet than their default values  
 :set history&    //restore something to its default settings 
-set history=1000 //1000 itmes in the history
+set history=1000 //1000 items in the history
 set ruler        //show the cursor position 
 set showcmd      //" show incomplete commands
 set scrolloff=5  //" keep 5 lines above when reposition the screen (z + enter) 

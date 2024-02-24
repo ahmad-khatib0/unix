@@ -1,0 +1,42 @@
+If you use ssh -X to connect to the remote system, a GUI-based editor pops up on your local screen. 
+  When no GUI is available, you need a text editor that runs in the shell, such as vi, jed, or joe.
+
+/The.*foot: Searches forward for a line that has the word The in it and also, 
+  after that at some point, the word foot.
+  
+?[pP]rint: Searches backward for either print or Print. Remember that case matters in Linux, 
+  so make use of brackets to search for words that could have different capitalization.
+
+:g/Local/s//Remote/gp: Substitutes every occurrence of the word Local with the word Remote in the 
+  entire file and then prints each line so that you can see the changes (piping it through less 
+  if output fills more than one page).
+
+On most Linux systems (Fedora and RHEL included), the updatedb command runs once per
+  day to gather the names of files throughout your Linux system into a database. By running
+  the locate command, you can search that database to find the location of files stored in it.
+
+■■ Not every file in your filesystem is stored in the database. The contents of the /etc/updatedb.conf
+  file limit which filenames are collected by pruning out select mount types, filesystem types, 
+  file types, and mount points. For example, filenames are not gathered from remotely mounted 
+  filesystems (cifs, nfs, and so on) or locally mounted CDs or DVDs (iso9660). Paths containing 
+  temporary files (/tmp) and spool files (/var/spool/cups) are also pruned. You can add items to
+  prune (or remove some items that you don’t want pruned) the locate database to your needs. 
+  In RHEL 8, the updatedb.conf file contains the following:
+  
+  PRUNE_BIND_MOUNTS = "yes"
+  PRUNEFS = "9p afs anon_inodefs auto autofs bdev binfmt_misc cgroup cifs coda configfs cpuset 
+  debugfs devpts ecryptfs exofs fuse fuse .sshfs fusectl gfs gfs2 gpfs hugetlbfs inotifyfs 
+  iso9660 jffs2 lustre mqueue ncpfs nfs nfs4 nfsd pipefs proc ramfs rootfs rpc_pipefs securityfs 
+  selinuxfs sfs sockfs sysfs tmpfs ubifs udf usbfs ceph fuse.ceph"
+  PRUNENAMES = ".git .hg .svn .bzr .arch-ids {arch} CVS"
+  PRUNEPATHS = "/afs /media /mnt /net /sfs /tmp /udev /var/cache/ccache /var/lib/yum/yumdb 
+  /var/lib/dnf/yumdb /var/spool/cups /var/spool/squid /var/tmp /var/lib/ceph"
+  
+  As a regular user, you can't see any files from the locate database that you can't see in the
+  filesystem normally. For example, if you can't type ls to view files in the /root directory,
+  you can't locate files stored in that directory.
+
+Searching for files by permission is an excellent way to turn up security issues on your
+  system or uncover access issues.
+
+

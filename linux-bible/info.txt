@@ -1,0 +1,53 @@
+Nearly every major Linux distribution that offers desktop interfaces is based on the X
+  Window System originally from the X.Org Foundation (http://www.x.org). The X Window
+  System provides a framework on which different types of desktop environments or simple
+  window managers can be built. A replacement for X.Org called Wayland (http://wayland
+  .freedesktop.org) is being developed. Although Wayland is the default X server for
+  Fedora now, you can still choose X.Org instead.
+
+X itself provides a plain gray background and a simple “X” mouse cursor. There are no
+  menus, panels, or icons on a plain X screen. If you were to launch an X client (such as a ter-
+  minal window or word processor), it would appear on the X display with no border around it
+  to move, minimize, or close the window. Those features are added by a window manager.
+
+the bash shell, which stands for Bourne Again Shell. The name is derived from the fact that bash 
+  is compatible with the one of the earliest UNIX shells: the Bourne shell 
+  (named after its creator, Stephen Bourne, and represented by the sh command).
+  Although bash is included with most distributions and considered a standard, other shells are avail-
+  able, including the C shell (csh), which is popular among BSD UNIX users, and the Korn shell (ksh),
+  which is popular among UNIX System V users. Ubuntu uses the dash shell by default at boot time,
+  which is designed to perform faster than the bash shell. Linux also has a tcsh shell 
+  (an improved C shell) and an ash shell (another Bourne shell look-alike).
+
+The /sbin and /usr/sbin directories contain administrative commands 
+  (some Linux systems don’t put those directories in regular users’ paths).
+  To make commands available to all users, add them to /usr/local/bin.
+
+The path directory order is important. Directories are checked from left to right. So, in this
+  example, if there is a command called foo located in both the /usr/bin and /bin direc-
+  tories, the one in /usr/bin is executed. To have the other foo command run, you either
+  type the full path to the command or change your PATH variable. 
+
+Here is the order in which the shell checks for the commands you type: 
+1. Aliases.
+2. Shell reserved word. These are words reserved by the shell for special use. Many of these 
+   are words that you would use in programming-type functions, such as do, while, case, and else. 
+3. Function. This is a set of commands that is executed together within the current shell.
+4. Built-in command. This is a command built into the shell. As a result, there is no representation of 
+   the command in the filesystem. Some of the most common commands that you will use are shell 
+   built-in commands, such as cd, echo, exit, fg (to bring a command running in the background to the foreground), history (to see a
+   list of commands that were previously run), pwd, set (to set shell options), and type 
+   (to show the location of a command).
+5. Filesystem command. This command is stored in and executed from the computer’s filesystem. 
+   (These are the commands that are indicated by the value of the PATH variable.)
+
+shell history is stored permanently when the shell exits properly, you can prevent storing a shell’s 
+  history by killing a shell. For example: kill -9 1234 
+
+Metacharacters include the pipe character (|), ampersand (&), semicolon (;), right parenthesis ()), 
+  left parenthesis ((), less than sign (<), and greater than sign (>)
+
+
+
+
+

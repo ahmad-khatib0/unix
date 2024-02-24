@@ -1,0 +1,218 @@
+
+Command-line completion
+Here are some of the values you can type partially from a bash shell:
+Command, alias, or function If the text you type begins with regular characters,
+  the shell tries to complete the text with a command, alias, or function name.
+Variable If the text you type begins with a dollar sign ($), the shell completes the
+  text with a variable from the current shell.
+Username If the text you type begins with a tilde (~), the shell completes the text
+  with a username. As a result, ~username indicates the home directory of the named user.
+Hostname If the text you type begins with the at symbol (@), the shell completes the
+  text with a hostname taken from the /etc/hosts file.
+
+
+To change the /etc/profile or /etc/bashrc files, you must be the root user. It is better
+  to create an /etc/profile.d/custom.sh file to add system-wide settings instead of
+  editing those files directly, however. Users can change the information in the $HOME/.bash_profile, 
+  $HOME/.bashrc, and $HOME/.bash_logout files in their own home directories.
+
+Setting your prompt: 
+  Your prompt consists of a set of characters that appear each time the shell is ready to
+  accept a command. The PS1 environment variable sets what the prompt contains and is
+  what you will interact with most of the time. If your shell requires additional input, it uses
+  the values of PS2, PS3, and PS4. eg you could type: 
+  export PS1="[\t \w]\$ " to see a prompt that looks like this: [20:26:32 /var/spool]$
+
+
+Man pages are the most common means of getting information about commands as well as
+  other basic components of a Linux system. Each man page falls into one of the categories
+  listed in Table 3.8. As a regular user, you will be most interested in man pages in section 1.
+  As a system administrator, you will also be interested in sections 5 and 8, and occasionally
+  section 4. Programmers will be interested in section 2 and 3 man pages.
+
+Some of these Linux directories: 
+
+/bin   Contains common Linux user commands, such as ls, sort, date, and chmod.
+
+/boot  Has the bootable Linux kernel, initial RAM disk, and boot loader configuration files (GRUB).
+
+/dev   Contains files representing access points to devices on your systems. These include terminal 
+       devices (tty*), hard disks (hd* or sd*), RAM (ram*), and CD-ROM (cd*). Users can access these devices 
+       directly through these device files; however, applications often hide the actual device names to end users.
+
+/etc   Contains administrative configuration files. Most of these files are plain-text files that, 
+       given the user has proper permission, can be edited with any text editor.
+
+/home  Contains directories assigned to each regular user with a login account. (The root
+       user is an exception, using /root as his or her home directory.)
+
+/media Provides a standard location for automounting devices (removable media in particular). If the 
+       medium has a volume name, that name is typically used as the mount point. For example, a USB 
+       drive with a volume name of myusb would be mounted on /media/myusb.
+
+/lib   Contains shared libraries needed by applications in /bin and /sbin to boot the system.
+
+/mnt   A common mount point for many devices before it was supplanted by the standard /media directory. 
+       Some bootable Linux systems still use this directory to mount hard disk partitions and remote 
+       filesystems. Many people still use this directory to temporarily mount local or remote 
+       filesystems, which are not mounted permanently.
+
+/misc  A directory sometimes used to automount filesystems upon request.
+
+/opt   Directory structure available to store add-on application software.
+
+/proc  Contains information about system resources.
+
+/root  Represents the root user’s home directory. The home directory for root does not
+       reside beneath /home for security reasons.
+
+/sbin  Contains administrative commands and daemon processes.
+
+/sys   Contains parameters for such things as tuning block storage and managing cgroups.
+
+/tmp   Contains temporary files used by applications.
+
+/usr   Contains user documentation, games, graphical files (X11), libraries (lib), and a variety of 
+       other commands and files that are not needed during the boot process. The /usr directory is 
+       meant for files that don’t change after installation (in theory, /usr could be mounted read-only).
+
+/var   Contains directories of data used by various applications. In particular, this is where you 
+       would place files that you share as an FTP server (/var/ftp) or a web server (/var/www). It 
+       also contains all system log files (/var/log) and spool files in /var/spool 
+       (such as mail, cups, and news). The /var directory contains directories and files that are meant 
+       to change often. On server computers, it is common to create the /var directory as a separate 
+       filesystem, using a filesystem type that can be easily expanded.
+
+
+Linux Filesystems versus Windows-Based Filesystems
+  Although similar in many ways, the Linux filesystem has some striking differences when compared to
+  filesystems used in MS-DOS and Windows operating systems. Here are a few of these differences:
+  
+■■ In MS-DOS and Windows filesystems, drive letters represent different storage devices. In
+   Linux, all storage devices are connected to the filesystem hierarchy. So, the fact that all of
+   /usr may be on a separate hard disk or that /mnt/remote1 is a filesystem from another computer is 
+   invisible to the user.
+
+■■ Slashes, rather than backslashes, are used to separate directory names in Linux. So
+   C:\home\joe in a Microsoft system is /home/joe in a Linux system.
+
+■■ Filenames almost always have suffixes in DOS (such as .txt for text files or .docx for word-
+   processing files). Although at times you can use that convention in Linux, three-character
+   suffixes have no required meaning in Linux. They can be useful for identifying a file type.
+   Many Linux applications and desktop environments use file suffixes to determine the con-
+   tents of a file. In Linux, however, DOS command extensions such as .com, .exe, and .bat
+   don’t necessarily signify an executable. (Permission flags make Linux files executable.)
+   
+■■ Every file and directory in a Linux system has permissions and ownership associated with it.
+   Security varies among Microsoft systems. Because DOS and Microsoft Windows began as
+   single-user systems, file ownership was not built into those systems when they were designed.
+   Later releases added features such as file and folder attributes to address this problem.
+
+
+<  Directs the contents of a file to the command. In most cases, this is the default action
+   expected by the command and the use of the character is optional; using less bigfile
+   is the same as less < bigfile.
+  
+>  Directs the standard output of a command to a file. If the file exists, 
+   the content of that file is overwritten.
+
+2> Directs standard error (error messages) to the file.
+
+&> Directs both standard output and standard error to the file.
+
+>> Directs the output of a command to a file, adding the output to the end of the existing file.
+
+Examples of command lines where information is directed to and from files:
+  $ mail root < ~/.bashrc
+  $ man chmod | col -b > /tmp/chmod
+  $ echo "I finished the project on $(date)" >> ~/projects
+
+Another type of redirection, referred to as ( HERE TEXT )  (also called here document), enables you
+  to type text that can be used as standard input for a command. Here documents involve entering 
+  two less-than characters (<<) after a command, followed by a word. All typing following that 
+  word is taken as user input until the word is repeated on a line by itself. Here is an example:
+    $ mail root cnegus rjones bdecker << thetext
+    > I want to tell everyone that there will be a 10 a.m.
+    > meeting in conference room B. Everyone should attend.
+    >
+    > -- James
+    > thetext
+    $
+    
+This example sends a mail message to root, cnegus, rjones, and bdecker usernames. The text entered 
+  between <<thetext and thetext becomes the content of the message. A common use of here text is 
+  to use it with a text editor to create or add to a file from within a script:
+    /bin/ed /etc/resolv.conf <<resendit
+    a
+    nameserver 100.100.100.100
+    .
+    w
+    q
+    resendit
+    
+With these lines added to a script run by the root user, the ed text editor adds the IP
+  address of a DNS server to the /etc/resolv.conf file.
+
+
+■■ On occasion, instead of seeing the execute bit (x) set on an executable file, you may see an s 
+   in that spot instead. With an s appearing within either the owner (-rwsr-xr-x) or group 
+   (-rwxr-sr-x) permissions, or both (-rwsr-sr-x), the application can be run by any user, but 
+   ownership of the running process is assigned to the application’s user/group instead of that of 
+   the user launching the command. This is referred to as a set UID or set GID program, respectively. 
+   For example, the mount command has permissions set as -rwsr-xr-x. This allows any user to run 
+   mount to list mounted filesystems (although you still have to be root to use mount to actually 
+   mount filesystems from the command line, in most cases).
+
+■■ If a t appears at the end of a directory, it indicates that the sticky bit is set for that directory 
+   (for example, drwxrwxr-t). By setting the sticky bit on a directory, the directory’s owner 
+   can allow other users and groups to add files to the directory but prevent users from deleting 
+   each other’s files in that directory. With a set GID assigned to a directory, any files created 
+   in that directory are assigned the same group as the directory’s group. (If you see a capital S or T 
+   instead of the execute bits on a directory, it means that the set GID or sticky bit permission, 
+   respectively, was set, but for some reason the execute bit was not also turned on.)
+
+■■ If you see a plus sign at the end of the permission bits (for example, -rw-rw- r--+), 
+   it means that extended attributes (+), such as Access Control Lists (ACLs), are set 
+   on the file. A dot at the end (.) indicates that SELinux is set on the file.
+
+Other special ways of identifying directories in the shell include the following:
+.       A single dot (.) refers to the current directory.
+..      Two dots (..) refer to a directory directly above the current directory.
+$PWD    This environment variable refers to the current working directory.
+$OLDPWD This environment variable refers to the previous working directory before you
+        changed to the current one. (Entering cd – returns you to the directory represented by $OLDPWD.)
+
+For a regular file, a dash appears in front of the nine-bit permissions indicator. Instead of 
+  a dash, you might see a d (for a directory), l (for a symbolic link), b (for a block device), 
+  c (for a character device), s (for a socket), or p (for a named pipe).
+
+
+Each permission (read, write, and execute) is assigned a number: r=4, w=2, and x=1 
+  and you use each set’s total number to establish the permission. For example, to make permissions 
+  wide open for yourself as owner, you would set the first number to 7 (4+2+1), and then you would 
+  give the group and others read-only permission by setting both the second and third numbers 
+  to 4 (4+0+0), so that the final number is 744. Any combination of permissions can result 
+  from 0 (no permission) through 7 (full permission).
+
+
+Setting default file permission with umask
+  When you create a file as a regular user, it’s given permission rw-rw-r-- by default. A
+  directory is given the permission rwxrwxr-x. For the root user, file and directory permission 
+  are rw-r--r-- and rwxr-xr-x, respectively. These default values are determined by the value 
+  of umask. Enter umask to see what your umask value is. For example:
+$ umask           =>>>>      0002
+
+If you ignore the leading zero for the moment, the umask value masks what is considered to be 
+  fully opened permissions for a file 666 or a directory 777. The umask value of 002
+  results in permission for a directory of 775 (rwxrwxr-x). That same umask results in a file
+  permission of 644 (rw-rw-r--). (Execute permissions are off by default for regular files.)
+  To change your umask value temporarily, run the umask command. Then try creating some files 
+  and directories to see how the umask value affects how permissions are set.
+
+
+
+
+
+
+
+

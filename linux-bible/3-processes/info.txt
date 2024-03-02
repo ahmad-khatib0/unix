@@ -1,0 +1,111 @@
+In gnome-system-monitor
+
+# Change Priority: Presents a list of priorities from Very Low to Very High. Select Custom
+  to see a slider bar from which you can renice a process. Normal priority is 0. To get better 
+  processor priority, use a negative number from –1 to –20. To have a lower processor priority, 
+  use a positive number (0 to 19). Only the root user can assign negative priorities, 
+  so when prompted you need to provide the root password to set a negative nice value.
+# Memory Maps: Lets you view the system memory map to see which libraries and other
+  components are being held in memory for the process.
+# Open Files: Lets you view which files are currently being held open by the process.
+
+
+You can also use the following to refer to a background job:
+
+%        Refers to the most recent command put into the background (indicated by the
+         plus sign when you type the jobs command). This action brings the command to the foreground.
+   
+%string  Refers to a job where the command begins with a particular string of characters.
+         The string must be unambiguous. (In other words, typing %vi when there are two
+         vi commands in the background results in an error message.)
+   
+%?string Refers to a job where the command line contains a string at any point. The string
+         must be unambiguous or the match fails.
+   
+%--      Refers to the job stopped before the one most recently stopped.
+
+
+Signals are represented by both numbers and names. Signals that you might send most commonly 
+  from a command include SIGKILL (9), SIGTERM (15), and SIGHUP (1). The default signal is SIGTERM,
+  which tries to terminate a process cleanly. To kill a process immediately, you can use SIGKILL. 
+  The SIGHUP signal can, depending on the program, tell a process to reread its configuration files. 
+  SIGSTOP pauses a process, while SIGCONT continues a stopped process.
+
+Notice that there are multiple possible signal numbers for SIGCONT and SIGSTOP because
+  different numbers are used in different computer architectures. For most x86 and Power
+  architectures, use the middle value (TABLE 6.1). The first value usually works for Alpha 
+  and SPARC, while the last one is for MIPS architecture .
+
+
+Setting processor priority with nice and renice
+  When the Linux kernel tries to decide which running processes get access to the CPUs on
+  your system, one of the things it takes into account is the nice value set on the process.
+  Every process running on your system has a nice value between –20 and 19. By default, the
+  nice value is set to 0. Here are a few facts about nice values:
+
+■■ The lower the nice value, the more access to the CPUs the process has. In other words, 
+   the nicer a process is, the less CPU attention it gets. So, a –20 nice value gets more 
+   attention than a process with a 19 nice value.
+■■ A regular user can set nice values only from 0 to 19. No negative values are allowed. So a regular 
+   user can’t ask for a value that gives a process more attention than most processes get by default.
+■■ A regular user can set the nice value higher, not lower. So, for example, if a user
+   sets the nice value on a process to 10 and then later wants to set it back to 5, that
+   action will fail. Likewise, any attempt to set a negative value will fail.
+■■ A regular user can set the nice value only on the user’s own processes.
+■■ The root user can set the nice value on any process to any valid value, up or down.
+
+
+Limiting Processes with cgroups
+  You can use a feature like “nice” to give a single process more or less access to CPU time.
+  Setting the nice value for one process, however, doesn’t apply to child processes that a process 
+  might start up or any other related processes that are part of a larger service. In other
+  words, “nice” doesn’t limit the total amount of resources a particular user or application
+  can consume from a Linux system. That’s where cgroups come in.
+  
+Cgroups can be used to identify a process as a task, belonging to a particular control group.
+  Tasks can be set up in a hierarchy where, for example, there may be a task called daemons
+  that sets default limitations for all daemon server processes, then subtasks that may set
+  specific limits on a web server daemon (httpd) for FTP service daemon (vsftpd).
+  As a task launches a process, other processes that the initial process launches (called child processes) 
+  inherit the limitations set for the parent process. Those limitations might say that all the 
+  processes in a control group only have access to particular processors and certain sets of RAM. 
+  Or they may only allow access to up to 30 percent of the total processing power of a machine.
+  
+The types of resources that can be limited by cgroups include the following:
+Storage (blkio): Limits total input and output access to storage devices 
+  (such as hard disks, USB drives, and so on).
+  
+Processor scheduling (cpu): Assigns the amount of access a cgroup has to 
+  be scheduled for processing power.
+  
+Process accounting (cpuacct): Reports on CPU usage. This information can be leveraged 
+  to charge clients for the amount of processing power they use.
+  
+CPU assignment (cpuset): On systems with multiple CPU cores, assigns a task to a
+  particular set of processors and associated memory.
+  
+Device access (devices): Allows tasks in a cgroup to open or create (mknod) selected device types.
+
+Suspend/resume (freezer): Suspends and resumes cgroup tasks. 
+
+Memory usage (memory): Limits memory usage by task. It also creates reports on memory resources used.
+
+Network bandwidth (net_cls): Limits network access to selected cgroup tasks. This is done by 
+  tagging network packets to identify the cgroup task that originated the packet and having 
+  the Linux traffic controller monitor and restrict packets coming from each cgroup.
+  
+Network traffic (net_prio): Sets priorities of network traffic coming from selected
+  cgroups and lets administrators change these priorities on the fly.
+  
+Name spaces (ns): Separates cgroups into namespaces, so processes in one cgroup can
+  only see the namespaces associated with the cgroup. Namespaces can include separate 
+  process tables, mount tables, and network interfaces.
+
+
+At its most basic level, creating and managing cgroups is generally not a job for new Linux
+  system administrators. It can involve editing configuration files to create your own cgroups
+  (/etc/cgconfig.conf) or set up limits for particular users or groups (/etc/cgrules
+  .conf). Or you can use the cgcreate command to create cgroups, which results in those
+  groups being added to the /sys/fs/cgroup hierarchy. Setting up cgroups can be tricky
+  and, if done improperly, can make your system unbootable.
+

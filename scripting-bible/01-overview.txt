@@ -1,0 +1,92 @@
+The memory locations are grouped into blocks called pages. The kernel locates each page of memory in 
+  either the physical memory or the swap space. The kernel then maintains a table of the memory pages 
+  that indicates which pages are in physical memory and which pages are swapped out to disk.
+
+The kernel keeps track of which memory pages are in use and automatically copies memory pages that have 
+  not been accessed for a period of time to the swap space area (called swapping out), even if other 
+  memory is available. When a program wants to access a memory page that has been swapped out, the 
+  kernel MUST MAKE ROOM FOR IT in physical memory by swapping out a different memory page, and swap in 
+  the required page from the swap space. Obviously, this process takes time and can slow down a running
+  process. The process of swapping out memory pages for running applications continues for as 
+  long as the Linux system is running.
+
+The kernel creates the first process, called the init process, to start all other processes on the 
+  system. When the kernel starts, it loads the init process into virtual memory. As the kernel starts 
+  each additional process, it gives the process a unique area in virtual memory to store the data 
+  and code that the process uses.
+
+Systemd: The systemd initialization method, created in 2010, has become the most popular initialization 
+  and process management system used by Linux distributions. The SysVinit initialization method used 
+  a concept called runlevels to determine what processes to start. The runlevel defines the state 
+  of the running Linux system and what processes should run in each state
+
+The /etc/inittab file defines the default runlevel for a system. The processes that start for 
+  specific runlevels are defined in subdirectories of the /etc/rc.d directory. You can view the 
+  current runlevel at any time using the runlevel command
+
+The systemd initialization method became popular because it has the ability to start processes 
+  based on different events:
+ . . When the system boots
+ . . When a particular hardware device is connected
+ . . When a service is started
+ . . When a network connection is established
+ . . When a timer has expired
+
+The systemd method groups unit files together into targets. A target defines a specific running state 
+  of the Linux system, similar to the SysVinit runlevel concept. At system startup, the default.target 
+  unit defines all the unit files to start.
+
+Hardware management:
+Two methods are used for inserting device driver code in the Linux kernel:
+  Drivers compiled in the kernel
+  Driver modules added to the kernel
+Previously, the only way to insert device driver code was to recompile the kernel. Each time you 
+  added a new device to the system, you had to recompile the kernel code. This process became even 
+  more inefficient as Linux kernels supported more hardware. Fortunately, Linux developers devised a 
+  better method to insert driver code into the running kernel. Programmers developed the concept of 
+  kernel modules to allow you to insert driver code into a running kernel without having to recompile 
+  the kernel. Also, a kernel module could be removed from the kernel when the device was finished 
+  being used. This greatly simplified and expanded using hardware with Linux.
+
+The Linux system identifies hardware devices as special files, called device
+  files. There are three classifications of device files: Character, Block, Network
+  
+Character device files are for devices that can handle data only one character at a time. Most 
+  types of modems and terminals are created as character files. Block files are for devices that can 
+  handle data in large blocks at a time, such as disk drives. The network file types are used for 
+  devices that use packets to send and receive data. This includes network cards and a special loopback 
+  device that allows the Linux system to communicate with itself using common network programming protocols.
+
+The Linux kernel interfaces with each filesystem using the Virtual File System (VFS). This provides 
+  a standard interface for the kernel to communicate with any type of filesystem. VFS caches 
+  information in memory as each filesystem is mounted and used.
+
+The GNU organization (GNU stands for GNU's Not Unix) developed a complete set of Unix utilities but 
+  had no kernel system to run them on. These utilities were developed under a software philosophy 
+  called open source software (OSS).
+
+The GNU coreutils package consists of three parts:
+  Utilities for handling files
+  Utilities for manipulating text
+  Utilities for managing processes
+
+One way to get to a CLI is to access the Linux system via text mode. This provides nothing more than 
+  a simple shell CLI on the monitor, just like the days before graphical desktops. This mode is called 
+  the Linux console because it emulates the old days of a hard-wired console terminal and is a
+  direct interface to the Linux system.
+
+
+The common Linux directory names are based on the Filesystem Hierarchy Standard (FHS). Many Linux 
+  distributions maintain compliance with FHS. Therefore, you should be able to easily find files 
+  on any FHS-compliant Linux systems.
+NOTE: The FHS is occasionally updated. You may find that some Linux distributions are still using 
+  an older FHS standard, whereas other distributions only partially implement the current standard. 
+  To keep up to date on the FHS standard, visit its official home at 
+  refspecs.linuxfoundation.org/fhs.shtml.
+
+
+Listing files:
+The file type — such as directory (d), file (-), linked file (l),   
+  character device (c), or block device (b)
+
+

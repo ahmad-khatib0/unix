@@ -1,0 +1,63 @@
+
+# view the current default target 
+$ systemctl get-default # graphical.target
+
+# -s option to create the symbolic link
+$ ln -s test_file slink_test_file
+
+# To view a file or directory's inode number, add the -i parameter
+ls -i *test_file
+
+# create A hard link
+$ ln test_one hlink_test_one
+
+# the file util It can peek inside a file and determine just what kind of file it is:
+$ file .bashrc # or file /usr/bin/rm  # or ...
+
+# number line 
+$ cat -n test_file  # or -b number the lines that have text in them
+
+# The more command is a pager utility
+$ more long_content_file.json
+
+# last 10 lines
+tail log_file  # or custom it:  tail -n 2 log_file,  # use -f to watch
+
+# it displays the first 10
+head log_file  # or head -3 log_file  (omit -n in head or tail)
+
+# list ext4 devices only 
+$ mount -t ext4
+
+# manually mounting a media device:
+$ mount -t type device directory  # (type defines the filesystem type the disk was formatted under.)
+# mount the USB memory stick at device /dev/sdb1 at location /media/disk
+$ mount -t vfat /dev/sdb1 /media/disk
+
+$ umount /home/rich/mnt
+
+# df allows you to easily see what's happening (size, mount point ...) on all the mounted disks:
+$ df -t ext4 -t vfat
+
+# sort the file numerically 
+sort -n file2
+
+# sort based on 3char month 
+sort -M file3
+
+# The -k and -t parameters are handy when sorting data that uses fields (root:x:0:0:root:/root:/bin/bash)
+# sort after : , -k on which to sort on (so sorted based on the third field, which is the numerical user ID value)
+sort -t ':' -k 3 -n /etc/passwd
+
+# find 
+grep -v t file1 # output lines that don't match the pattern
+grep -n t file1 #  find the line numbers where the matching patterns are found,
+grep -e t -e f file1 # more than one matching pattern
+
+
+tar -cvf test.tar test/ test2/ # create an archive file
+tar -tf test.tar               # lists (but doesn't extract) the contents of the tar file test.tar
+tar -xvf test.tar              # extracts the contents of the tar file test.tar
+
+
+

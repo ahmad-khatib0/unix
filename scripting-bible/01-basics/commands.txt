@@ -59,5 +59,47 @@ tar -cvf test.tar test/ test2/ # create an archive file
 tar -tf test.tar               # lists (but doesn't extract) the contents of the tar file test.tar
 tar -xvf test.tar              # extracts the contents of the tar file test.tar
 
+which sh
+ls -l /usr/bin/sh
+cat /etc/shells
+echo $0                # display name of current shell
+
+ps -f
+
+# using background process lists
+$ (tar -cf Doc.tar Documents ; tar -cf Music.tar Music)&
+
+Co-processing performs almost identically to putting a command in background mode,
+$ coproc sleep 10
+$ coproc My_Job { sleep 10; } # extended syntax (naming this command)
+
+# combine co-processing with process lists creating nested subshells
+$ coproc ( sleep 10; sleep 2 )    # then to check:  ps --forest
+
+$ type cd  # or $ type exit  
+$ type -a echo  # see multiple flavors for commands (internal or external)
+->> echo is a shell builtin
+->> echo is /usr/bin/echo
+
+# recall and reuse your last command
+$ !!   # or !42  which is the command number
+
+# force the command history to be written to the .bash_history file without leaving a shell session
+$ history -a
+
+# view global environment variables,
+$ printenv  # or env
+$ printenv HOME
+
+# The set command displays all variables defined for a specific process, including
+# both local and global environment variables as well as user-defined variables:
+$ set
+
+# Removing Environment Variables
+$ unset my_variable
+
+# append new search directories to the existing PATH environment variable
+$ PATH=$PATH:/home/christine/Scripts
+
 
 

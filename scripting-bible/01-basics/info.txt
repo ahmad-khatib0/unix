@@ -1,0 +1,226 @@
+Two types of file links are available in Linux: A symbolic link And  A hard link
+
+A symbolic link, also called a soft link, is simply a physical file that points
+  to another file somewhere in the virtual directory structure. The two
+  symbolically linked together files do not share the same contents.
+
+Another way to tell that these linked files are separate physical files is by viewing their inode 
+  numbers. The inode number of a file or directory is a unique identification number that the kernel 
+  assigns to each object in the filesystem. To view a file or directory's inode number, 
+  add the -i parameter to the ls command:
+$ ls -i *test_file
+
+A hard link creates a separate virtual file that contains information about the original file and 
+  where to locate it. However, the two files are actually the same physical file. To create a hard 
+  link, again the original file must preexist, except that this time no parameter is needed on the 
+  ln command:        $ ln test_one hlink_test_one
+
+NOTE: You can only create a hard link between files on the same physical medium. To create 
+  a link between files under separate physical mediums, you must use a symbolic link.
+
+NOTE: moving the file changes the name from fall to fzll but it keeps the same inode 
+  number and timestamp value. This is because mv affects only a file's name.
+
+NOTE: the less command name comes from the phrase “less is more”) 😄 😄.
+
+
+The GNU ps command that's used in Linux systems supports three different
+  types of command-line parameters:
+. . Unix-style parameters, which are preceded by a dash
+. . BSD-style parameters, which are not preceded by a dash
+. . GNU long parameters, which are preceded by a double dash
+
+The ps command columns: 
+  UID: The user responsible for launching the process
+  PID: The process ID of the process
+  PPID: The PID of the parent process (if a process is started by another process)
+  C: Processor utilization over the lifetime of the process
+  STIME: The system time when the process started
+  TTY: The terminal device from which the process was launched
+  TIME: The cumulative CPU time required to run the process
+  CMD: The name of the program that was started
+
+When using: ps -l # extra columns will appear 
+F: System flags assigned to the process by the kernel
+S: The state of the process (O = running on processor; S = sleeping; R = runnable, 
+   waiting to run; Z = zombie, process terminated but parent not available; T = process stopped)
+PRI:   The priority of the process (higher numbers mean lower priority)
+NI:    The nice value, used for determining priorities ADDR: The memory address of the process
+SZ:    Approximate amount of swap space required if the process was swapped out
+WCHAN: Address of the kernel function where the process is sleeping
+
+
+The Linux filesystem combines all media disks into a single virtual directory. 
+  Before you can use a new media disk on your system, you need to place it in the 
+  virtual directory. This task is called mounting.
+
+The mount command provides four pieces of information:
+1 The device filename of the media
+2 The mount point in the virtual directory where the media is mounted
+3 The filesystem type
+4 The access status of the mounted media
+
+Linux recognizes numerous filesystem types. If you share removable media devices with 
+  your Windows PCs, the types you're most likely to run into are:
+vfat:    Windows FAT32 filesystem with support for long filenames
+ntfs:    Windows advanced filesystem used in Windows NT and later operating systems
+exfat:   Windows filesystem optimized for removable media
+iso9660: The standard CD-ROM and DVD filesystem
+
+Most USB memory sticks are formatted using the vfat filesystem. If you need to mount 
+  a data CD or DVD, you'll have to use the iso9660 filesystem type.
+
+The -o option ( mount command ) allows you to mount the filesystem with a comma-separated
+  list of additional options. The popular options to use are as follows:
+ro         : Mount as read-only.
+rw         : Mount as read-write.
+user       : Allow an ordinary user to mount the filesystem.
+check=none : Mount the filesystem without performing an integrity check.
+loop       : Mount a file.
+
+
+The df command displays the following:
+  The device location of the device
+  How many 1024-byte blocks of data it can hold
+  How many 1024-byte blocks are used
+  How many 1024-byte blocks are available
+  The amount of used space as a percentage
+  The mount point where the device is mounted
+
+
+When a child shell process is spawned, only some of the parent's environment is copied to the 
+  child's shell environment. This can cause problems with items such as variables.
+
+
+Process lists: 
+$ pwd ; ls test* ; cd /etc ; pwd ; cd ; pwd ; ls my*
+
+In the preceding example, the commands all executed one after another with no problems. However, 
+  while using commands in this manner is called a list, it is not a process list. For a command list 
+  to be considered a process list, the commands must be encased in parentheses:
+$ (pwd ; ls test* ; cd /etc ; pwd ; cd ; pwd ; ls my*)
+
+Though the parentheses addition may not appear to be a big difference, they do cause a very 
+  different effect. Adding parentheses and turning the command list into a process list created 
+  a subshell to execute the commands.
+
+$ pwd ; ls test* ; cd /etc ; pwd ; cd ; pwd ; ls my* ; echo $BASH_SUBSHELL
+At the very end of the commands' output, you can see the number zero (0)
+  is displayed. This indicates a subshell was not created to execute these commands.
+
+$ (pwd ; ls test* ; cd /etc ; pwd ; cd ; pwd ; ls my* ; echo $BASH_SUBSHELL)
+In this case, the number one (1) displayed at the output's end. This indicates
+  a subshell was indeed created and used for executing these commands.
+
+create a grandchild subshell by embedding parentheses within a process list:
+$ (pwd ; (echo $BASH_SUBSHELL))   # you'll see 2 at the end
+
+When you have more than one background process running, there is some additional helpful information 
+  to show which background job was started last. The most recently started job has a plus sign (+) 
+  next to its job number in the jobs command's display. And the second newest process will have a 
+  minus sign (-) to provide you with additional information.
+
+Looking at co-processing
+  Co-processing (i.e coproc sleep 10) does two things at the same time. It spawns a subshell in
+  background mode and it executes a command within that subshell.
+
+Looking at external commands
+  An external command, sometimes called a filesystem command, is a program that exists outside of 
+  the Bash shell. In other words, it is not built into the shell program. An external command 
+  program is typically located in /bin , /usr/bin , /sbin , or /usr/sbin directories.
+  Whenever an external command is executed, a child process is created. This action is termed forking. 
+  Conveniently, the external command ps displays its current parent as well as its own forked 
+  child processes:   $ ps -f 
+
+Looking at built-in commands
+  Built-in commands are different in that they do not need a child process to execute. They were 
+  compiled into the shell, and thus are part of the shell's toolkit. No external program file 
+  exists to run them. Both the cd and exit commands are built into the Bash shell. You can tell a
+  command is built-in by using the type command:  $ type cd  # or $ which exit  
+
+Be aware that some commands have multiple flavors. For example, both echo and pwd have a built-in 
+  command flavor as well as an external command flavor. These flavors are slightly different. To see 
+  multiple flavors for commands, use the -a option on the type command:  $ type -a echo 
+
+Changing a global environment variable within a child shell does not affect
+  the variable's value in the parent shell:
+  
+$ export my_variable="I am Global now"
+$ echo $my_variable
+$ bash
+$ echo $my_variable # ->> I am Global now
+$ my_variable="Null"
+$ echo $my_variable # ->> Null
+$ exit
+$ echo $my_variable # ->> I am Global now
+
+A child shell cannot even use the export command to change the parent shell's global variable's value
+A child shell cannot even use the unset command to remove a parent env var
+
+
+Setting the PATH Environment Variable:
+  The PATH environment variable defines the directories it searches looking for commands and programs
+
+Some script builders use the env command as the first line in a Bash shell script as in the 
+  following: #!/usr/bin/env bash . The advantage of this method is that the env utility searches 
+  for the bash shell program within the $PATH directories, making the script more portable to other 
+  Linux distributions.
+
+When you start a Bash shell by logging into the Linux system, by default Bash checks several files for 
+  commands. These files are called startup files or environment files. Which startup files Bash processes 
+  depends on the method you use to start the Bash shell. You can start a Bash shell in three ways:
+- As a default login shell at login time
+- As an interactive shell that is started by spawning a subshell
+- As a noninteractive shell to run a script
+
+When you log into the Linux system, the Bash shell starts as a login shell. The login shell 
+  typically looks for five different startup files to process commands from:
+  /etc/profile
+  $HOME/.bash_profile
+  $HOME/.bashrc
+  $HOME/.bash_login
+  $HOME/.profile
+The /etc/profile file is the main default startup file for the Bash shell on the system. All users 
+  on the system execute this startup file when they log in. The other four startup files are specific 
+  for each user, located in the home ($HOME) directory, and can be customized for an individual user's
+  requirements.
+
+NOTE: 
+  Be aware that some Linux distributions use pluggable authentication modules (PAM). In this case, 
+  before the Bash shell is started, PAM files are processed, including ones that may contain environment 
+  variables. PAM file examples include the /etc/environment file and the $HOME/.pam_environment file. 
+  Find more information about PAM at www.linux-pam.org.
+
+ls /etc/profile.d
+Notice that several files are related to specific applications on the system. Most applications 
+  create two startup files — one for the Bash shell (using the .sh extension) and one for the 
+  C shell (using the .csh extension).
+
+The .bash_profile startup file first checks to see if the startup file, .bashrc , is present in 
+  the $ HOME directory. If it's there, the startup file executes the commands in it.
+
+If Bash is started as an interactive shell, it doesn't process the /etc/profile file. 
+  Instead, it it checks only for the .bashrc file in the user's $ HOME directory
+  The .bashrc file does two things. First, it checks for a common bashrc file in the /etc directory. 
+  Second, it provides a place for the user to enter personal command aliases 
+
+Understanding the noninteractive shell process
+  The last type of shell is a noninteractive subshell. This is the shell where the system can start 
+  to execute a shell script. This is different in that there isn't a CLI prompt to worry about. 
+  However, you may want to run specific startup commands each time you start a script on your system.
+  To accommodate that situation, the Bash shell provides the BASH_ENV environment variable. When the 
+  shell starts a noninteractive subshell process, it checks this environment variable for the startup 
+  file name to execute. If one is present, the shell executes the file's commands, which
+  typically include variables set for the shell scripts.
+
+So if the BASH_ENV variable isn't set ( printenv BASH_ENV ), how do the shell scripts get their 
+  environment variables? Remember that some shell script execution methods start a subshell, also 
+  called a child shell. A child shell inherits its parent shell's exported variables. For example, 
+  if the parent shell was a login shell and had variables set and exported in the /etc/profile file, 
+  /etc/profile.d/*.sh files, and the $HOME/.bashrc file, the child shell for the script inherits 
+  these exported variables.
+
+It is a better idea to create a file ending with .sh in the /etc/profile.d/ directory. In that 
+  file, place all your new or modified global environment variable settings.
+
+

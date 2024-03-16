@@ -103,3 +103,73 @@ $ PATH=$PATH:/home/christine/Scripts
 
 
 
+──────────────────────────────────────────────────────────────────────
+ Linux File Permissions
+──────────────────────────────────────────────────────────────────────
+# The -D parameter shows what defaults the useradd command uses if you
+# don't specify them in the command line when creating a new user account.
+useradd -D 
+
+# create with $HOME dir
+useradd -m test
+
+Changing the default values is a snap:
+useradd -D -s /bin/tsch  # so now each created user will have the tsch shell as the default
+
+remove an existing user account (-r with $HOME dir):
+userdel -r test
+
+# change test user password
+passwd test
+
+# using redirection to change multiple user passwords using the chpasswd command
+chpasswd < users.txt
+
+# change the default login shell for a user 
+chsh -s /bin/csh test
+
+
+# find information about people on your Linux system:
+finger username
+
+# change comments in the passwd file
+chfn test
+
+# Creating new groups
+/usr/sbin/groupadd shared
+/usr/sbin/usermod -G shared rich # add rich to the shared group
+
+# using groupmod to change/add group info
+groupmod -n sharing shared
+
+# change the default touch permissions
+$ umask 026  # so: touch newfile2:  -rw-r-----
+
+# set the security settings using either octal mode: 
+chmod 760 newfile
+
+# or symbolic mode
+$ chmod o+r newfile # adds the read permission 
+$ chmod u-x newfile # removes the execute permission
+
+# Changing ownership
+chown dan newfile
+chown dan.shared newfile  # user and group
+chown .rich newfile       # just change the default group for a file
+chown test. newfile       # change both (user and group) with just one entry
+
+# chgrp changes the group only
+chgrp shared newfile
+
+# view the ACLs assigned to a file or directory:
+$ getfacl test
+
+# adds read and write permissions for the sales group to the test file
+$ setfacl -m g:sales:rw test
+
+# remove the permissions, use the -x option:
+$ setfacl -x g:sales test
+
+# To create a default ACL on a directory start the rule with d:
+$ sudo setfacl -m d:g:sales:rw /sales
+

@@ -1,0 +1,126 @@
+
+User variables can be any text string of up to 20 letters, digits, or
+  underscore characters. User variables are case sensitive,
+
+The shell script stores all variable values as text strings; it's up to the
+  individual commands in the shell to determine the data type used for the variable value. 
+
+No space allowed between variable name and its declaration
+
+There are two ways to assign the output of a command to a variable:
+                   The backtick character,         The $() format
+  for example:        testing=`date`,              testing=$(date)     
+
+Command substitution creates what's called a subshell to run the enclosed command. A subshell is 
+  a separate child shell generated from the shell that's running the script. Because of that, any
+  variables that you create in the script won't be available to commands running in the subshell.
+  Subshells are also created if you run a command from the command prompt using the ./ path, but 
+  they aren't created if you just run the command without a path. However, if you use a built-in shell 
+  command, that doesn't generate a subshell. Be careful when running scripts from the command prompt!
+
+Output redirection:   like: 
+  date > filename.txt       # overwrite
+  date >> filename.txt      # append
+  
+
+Input redirection
+  Input redirection is the opposite of output redirection. Instead of taking the output of a command and 
+  redirecting it to a file, input redirection takes the content of a file and redirects it to a command.
+  The input redirection symbol is the less-than symbol (<): command < inputfile
+  The easy way to remember this is that the command is always listed first in
+  the command line, and the redirection symbol “points” to the way the data is flowing
+  The less-than symbol indicates that the data is flowing from the input file to the command.
+
+The wc command provides a count of text in the data. By default, it produces three values:
+    The number of lines in the text
+    The number of words in the text
+    The number of bytes in the text
+
+There's another method of input redirection, called inline input redirection. This method allows you 
+  to specify the data for input redirection on the command line instead of in a file. This may seem 
+  somewhat odd at first, but there are a few applications for this process (such as those shown in
+  “Performing Math”).
+
+The inline input redirection symbol is the double less-than symbol (<<). Besides this symbol, you must 
+  specify a text marker that delineates the beginning and end of the data used for input. You can use 
+  any string value for the text marker, but it must be the same at the beginning of the data and
+  the end of the data:           command << marker
+When using inline input redirection on the command line, the shell will prompt for data using   
+  the secondary prompt, defined in the PS2 environment variable, for example
+
+$ wc << EOF 
+> test string 1
+> test string 2
+> test string 3
+> EOF
+  3      9       42
+The secondary prompt continues to prompt for more data until you enter the
+  string value for the text marker. The wc command performs the line, word,
+  and byte counts of the data supplied by the inline input redirection.
+
+
+The standard operators work fine in the expr command, but the problem occurs when using them from 
+  a script or the command line. Many of the expr command operators have other meanings in the shell 
+  (such as the asterisk). Using them in the expr command produces odd results: 
+  $ expr 5 * 2       ->> expr: syntax error
+
+To solve this problem, you need to use the shell escape character (the backslash) to identify any 
+  characters that may be misinterpreted by the shell before being passed to the expr command:
+  $ expr 5 \* 2     ->> 10
+
+The z shell (zsh) provides full floating-point arithmetic operations. If you require 
+  floating-point calculations in your shell scripts, you might consider checking out the z shell
+
+A floating-point solution
+  There are several solutions for overcoming the Bash integer limitation. The
+  most popular solution uses the built-in Bash calculator, called bc.
+
+The basics of bc
+  The Bash calculator is actually a programming language that allows you to enter floating-point 
+  expressions at a command line and then interprets the expressions, calculates them, and returns 
+  the result. The Bash calculator recognizes the following:
+--    Numbers (both integer and floating point)
+--    Variables (both simple variables and arrays)
+--    Comments (lines starting with a pound sign or the C language /* */ pair)
+--    Expressions
+--    Programming statements (such as if-then statements)
+--    Functions
+
+The floating-point arithmetic is controlled by a built-in variable called
+  scale. You must set this value to the desired number of decimal places you
+  want in your answers or you won't get what you were looking for:    $ bc -q
+  
+Using bc in scripts
+  variable=$(echo `options; expression` | bc)
+The first portion, options , allows you to set variables. If you need to set
+  more than one variable, separate them using the semicolon. 
+
+NOTE: Any variables created within the Bash calculator (bc) are valid only within 
+  the Bash calculator and can't be used in the shell script.
+
+Every command that runs in the shell uses an exit status to indicate to the shell that it's done 
+  processing. The exit status is an integer value between 0 and 255 that's passed by the command to 
+  the shell when the command finishes running. You can capture this value and use it in your scripts.
+
+Checking the exit status
+  Linux provides the $? special variable that holds the exit status value from the last command 
+  that executed. You must view or use the $? variable immediately after the command you want to 
+  check. It changes values to the exit status of the last command executed by the shell:
+$ date
+Mon Jun 01 16:01:30 EDT 2020
+$ echo $?
+0
+
+The invalid command returns an exit status of 127. There's not much of a standard convention 
+  to Linux error exit status codes. However, there are a few guidelines you can use
+
+Another common error you'll encounter occurs if you supply an invalid
+  parameter to a command:
+$ date %t   # ->>> date: invalid date '%t'
+$ echo $?   # ->>> 1
+
+
+The epoch time specifies the time as an integer value of the number of seconds since midnight, 
+  January 1, 1970 (it's an old Unix standard). Thus, to get the epoch time for January 1, 2020:
+  $date -d "Jan 1, 2020" +%s    ->>>  1577854800
+

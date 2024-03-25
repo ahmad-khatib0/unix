@@ -8,6 +8,11 @@ $ ln -s test_file slink_test_file
 # To view a file or directory's inode number, add the -i parameter
 ls -i *test_file
 
+# Notice in the preceding example that, instead of having to use the ls -l command multiple times to find 
+  a series of linked files' final object, you can use the readlink -f command. It immediately
+  produces the linked file series' final object.
+$ readlink -f ~/.tmux.conf 
+
 # create A hard link
 $ ln test_one hlink_test_one
 
@@ -240,5 +245,50 @@ $ sudo mount -t ext4 /dev/vg00/lvol0 my_LV
 
 # finally again: Keep in mind that you'll want to add a record to the /etc/fstab file so that 
   your new LV is mounted automatically when the system boots
+
+
+
+
+
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ Packages managment                                                                                          │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+$ apt --installed list
+$ apt show package_name
+
+# One detail you cannot get with apt is a listing of all the files associated with a particular 
+  software package. To get this list, you will need to go to the dpkg command itself:
+$ dpkg -L package_name
+
+# You can also do the reverse — find what package a particular file belongs to:
+$ dpkg --search absolute_file_name   # dpkg --search /bin/getfacl
+
+# search 
+$ apt search package_name
+$ apt --names-only search zsh    # exactly
+
+# The upgrade command won't remove any packages as part of the upgrade process, so use: 
+$ apt full-upgrade
+
+# remove software with its data
+$ sudo apt purge zsh
+$ sudo apt autoremove               # removes dependencies that are no longer required
+
+$ dnf list installed  # or:
+$ dnf list xterm      # or:
+$ dnf list installed xterm
+
+# find out what software package provides a particular file on your filesystem
+$ dnf provides file_name   # i.e:   dnf provides /usr/bin/gzip
+
+$ dnf list upgrades
+
+# determining the dependencies for the xterm package:
+$  dnf repoquery --deplist xterm
+
+# To see what repositories you are currently pulling software from
+$ dnf repolist
 
 

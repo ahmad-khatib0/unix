@@ -223,5 +223,9 @@ So if the BASH_ENV variable isn't set ( printenv BASH_ENV ), how do the shell sc
 It is a better idea to create a file ending with .sh in the /etc/profile.d/ directory. In that 
   file, place all your new or modified global environment variable settings.
 
+When the GNU Project ported the vi editor to the open source world, they chose to make some improvements 
+  to it. Because it extended the original vi editor found in the Unix world, the developers also renamed 
+  it “vi improved” or vim.
+
 
 

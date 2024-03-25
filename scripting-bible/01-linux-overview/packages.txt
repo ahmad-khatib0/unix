@@ -1,0 +1,69 @@
+
+The apt command is essentially a front end for both the apt-cache and apt-get commands. The
+  nice thing about APT is that you don't need to remember which tool to use when—it covers
+  everything you need to do with package management.
+
+The apt repositories
+  The default software repository locations for apt are set up for you when you install your Linux
+  distribution. The repository locations are stored in the file /etc/apt/sources.list.
+  In many cases, you will never need to add/remove a software repository, so you won't need to
+  touch this file. However, apt will only pull software from these repositories. Also, when searching
+  for software to install or update, apt will only check these repositories. If you need to include
+  some additional software repositories for your package management system, this is the place to do it.
+
+##  cat /etc/apt/sources.list
+  First, notice that the file is full of helpful comments and warnings. The repository sources
+  specified use the following structure: deb (or deb-src) address distribution_name package_type_list
+
+The deb or deb-src value indicates the software package type. The deb value indicates it is a source of 
+  compiled programs, whereas the deb-src value indicates it is a source of source code. The address entry 
+  is the software repository's web address. The distribution_name entry is the name of this particular software 
+  repository's distribution version. In the example, the distribution name is focal . This does not necessarily 
+  mean that the distribution you are running is Ubuntu's Focal Fossa; it just means the Linux distribution is 
+  using the Ubuntu Focal Fossa software repositories. For example, in Linux Mint's sources.list file, you will 
+  see a mix of Linux Mint and Ubuntu software repositories.
+  Finally, the package_type_list entry may be more than one word and indicates what type of packages the 
+  repository has in it. For example, you may see values such as main , restricted , universe , or partner.
+
+
+Like the Debian-based distributions, the Red Hat–based systems have several different 
+  front-end tools available. The common ones are:
+    yum : Used in Red Hat, CentOS, and Fedora
+    zypper : Used in openSUSE
+    dnf : An updated version of yum with some additional features
+
+Dealing with broken dependencies (redhat)
+  Sometimes as multiple software packages get loaded, a software dependency for one package can get overwritten 
+  by the installation of another package. This is called a broken dependency. If this should happen on your 
+  system, first try the following command:
+# sudo dnf clean all
+
+Then try to use the upgrade option in the dnf command. Sometimes, just cleaning up any
+  misplaced files can help. If that doesn't solve the problem, try the following command:
+sudo dnf repoquery --deplist package_name
+
+This command displays all the package's library dependencies and what software package provides
+  them. Once you know the libraries required for a package, you can then install them. Here's an
+  example of determining the dependencies for the xterm package:
+# dnf repoquery --deplist xterm
+
+
+To see what repositories you are currently pulling software from, type the following command: dnf repolist
+  If you don't find a repository you need software from, then you will need to do a little
+  configuration file editing. There are two places where the dnf repository definitions can be located:
+  In the /etc/dnf/dnf.conf configuration file
+  As separate files in the /etc/yum.repos.d directory
+  Good repository sites such as rpmfusion.org will lay out all the steps necessary to use them.
+  Sometimes these repository sites will offer an RPM file that you can download and install. The
+  installation of the RPM file will do all the repository setup work for you. Now that's convenient!
+
+NOTE: When you install a snap, the snapd program mounts it as a drive. 
+  You can see the new snap mount by using the mount command.
+NOTE: Instead of removing a snap, you can just disable it without removing it. Just use the snap
+  disable command. To reenable the snap, use the snap enable command.
+
+Using flatpak containers
+  The flatpak application container format was created as an independent open source project with no direct 
+  ties to any specific Linux distribution. That said, battle lines have already been drawn, with Red Hat, 
+  CentOS, and Fedora oriented toward using flatpak instead of Canonical's snap container format.
+

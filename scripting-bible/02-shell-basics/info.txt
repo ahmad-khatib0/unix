@@ -124,3 +124,82 @@ The epoch time specifies the time as an integer value of the number of seconds s
   January 1, 1970 (it's an old Unix standard). Thus, to get the epoch time for January 1, 2020:
   $date -d "Jan 1, 2020" +%s    ->>>  1577854800
 
+Keep in mind that, with an elif statement, any else statements immediately following it are 
+  only for that elif code block. They are not part of a preceding if-then statement code block.
+
+You might be wondering if the Bash if-then statement has the ability to evaluate any condition 
+  other than a command's exit status code. The answer is no, it can't. However, a neat utility 
+  available in the Bash shell helps you evaluate other things using the if-then statement. The test 
+  command provides a way to test different conditions in an if-then statement. If the condition 
+  listed in the test command evaluates to TRUE , the test command exits with a zero exit status code.
+  This makes the if-then statement behave in much the same way that if-then statements work in other 
+  programming languages. If the condition is false, the test command exits with a non-zero exit 
+  status code, which causes the if-then statement to exit.
+
+The test command and test conditions can evaluate three classes of conditions:
+  - - Numeric comparisons
+  - - String comparisons
+  - - File comparisons
+
+n1 -eq n2     Checks if n1 is equal to n2.
+n1 -ge n2     Checks if n1 is greater than or equal to n2.
+n1 -gt n2     Checks if n1 is greater than n2.
+n1 -le n2     Checks if n1 is less than or equal to n2.
+n1 -lt n2     Checks if n1 is less than n2.
+n1 -ne n2     Checks if n1 is not equal to n2.
+
+For test conditions, the only numbers the Bash shell can handle are integers. Although you can use 
+  floating-point values for commands, such as echo , they will not work properly in test conditions.
+
+str1 = str2   Checks if str1 is the same as string str2.
+str1 != str2  Checks if str1 is not the same as str2.
+str1 < str2   Checks if str1 is less than str2.
+str1 > str2   Checks if str1 is greater than str2.
+-n str1       Checks if str1 has a length greater than zero.
+-z str1       Checks if str1 has a length of zero.
+
+
+Capitalized letters are treated as less than lowercase letters in test comparisons. However, the sort 
+  command does the opposite. When you put the same strings in a file and use the sort command, 
+  the lowercase letters appear first. This is due to different ordering techniques.
+
+Test comparisons use standard Unicode ordering, using each character's Unicode numeric value to 
+  determine the sort order. The sort command uses the sorting order defined for the system locale 
+  language settings. For the English language, the locale settings specify that lowercase letters 
+  appear before uppercase letters in sorted order.
+
+NOTE: 
+  The test command and test expressions use the standard mathematical comparison symbols for string 
+  comparisons and text codes for numerical comparisons. This is a subtle feature that many programmers 
+  manage to get reversed. If you use the mathematical comparison symbols for numeric values, the 
+  shell interprets them as string values and may not produce the correct results.
+
+Three additions to the Bash shell provide advanced features that you can use in if-then statements:
+  Single parentheses for running the command in a subshell
+  Double parentheses for mathematical expressions
+  Double square brackets for advanced string handling functions
+
+WARNING
+  While you can use process lists within the if test statement, unexpected results may occur. If all 
+  the process list's commands fail except the last command, the subshell will set the exit status to 
+  zero, and the commands listed under the then section will run.
+
+The arithmetic logic unit (ALU) is a part of a computer's CPU. Inside the ALU, mathematical 
+  operations like addition, subtraction, multiplication and division are all done at bit level.
+  For those operations, bitwise operators are used.
+
+NOTE: in double parentheses you don't need to escape the greater-than symbol in the expression within 
+  the double parentheses. This is yet another advanced feature besides the double parentheses command.
+
+The double bracket command provides advanced features for string comparisons. The double bracketed 
+  expression uses the standard string comparison used in the test evaluations. However, it provides 
+  an additional feature that the test evaluations don't — pattern matching.
+
+What is /dev/null?
+
+It is a virtual file with a unique way of dealing with files. Anything written on /dev/null will 
+  disappear and can not be recovered. A command is supposed to generate huge output? Redirect it 
+  to /dev/null and the output will not be seen anywhere in the system, not even in the /tmp. 
+  This is why it is called the black hole of Linux.
+
+

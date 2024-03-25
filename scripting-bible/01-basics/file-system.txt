@@ -1,0 +1,163 @@
+
+Looking at the ext filesystem
+  The original filesystem introduced with the Linux operating system was called the extended filesystem 
+  (or just ext for short). It provided a basic Unix-like filesystem for Linux, using virtual directories to handle 
+  physical devices and storing data in fixed-length blocks on the physical devices. The ext filesystem used a system 
+  called inodes to track information about the files stored in the virtual directory. The inode system created a 
+  separate table on each physical device, called the inode table, to store file information. Each stored file in 
+  the virtual directory had an entry in the inode table. The extended part of the name comes from the additional 
+  data that it tracked on each file, which consisted of these items
+- - The filename
+- - The file size
+- - The owner of the file
+- - The group the file belongs to
+- - Access permissions for the file
+- - Pointers to each disk block that contains data from the file
+
+Looking at the ext2 filesystem
+The ext2 filesystem maintained the same ext filesystem structure but expanded its abilities:
+  Created, modified, and last accessed time values for files were added to the inode table.
+  The maximum file size allowed was increased to 2 TB, and then later to 32 TB.
+  Disk blocks were allocated in groups when a file was saved.
+  
+The ext2 filesystem too had limitations. If something happened to the system between a file being stored and 
+  the inode table being updated, a potential result was losing the file's data location on the disk. The ext2
+  filesystem was notorious for experiencing these corruptions due to system crashes and power outages.
+
+
+Digging into journaling filesystems
+  Journaling filesystems provide a new level of safety to the Linux system. Instead of writing data directly 
+  to the storage device and then updating the inode table, journaling filesystems write file changes into a 
+  temporary file (called the journal) first. After data is successfully written to the storage
+  device and the inode table, the journal entry is deleted. If the system should crash or suffer a power 
+  outage before the data can be written to the storage device, the journaling filesystem reads through the
+  journal file and processes any uncommitted data.
+
+Looking at the ext3 filesystem
+  The ext3 filesystem is a descendant of ext2 that supports files up to 2 TB, with a total file system size of 
+  32 TB. By default, it uses the ordered mode method of journaling, but the other modes are available via cli 
+  options. It doesn't provide any recovery from accidental file deletion or allow data compression by default.
+
+Looking at the ext4 filesystem
+  A still popular descendant of ext3, the ext4 filesystem supports files up to 16 tebibytes (TiB), with a 
+  total file system size of 1 exbibyte (EiB). By default, it uses the ordered mode method of journaling, 
+  but the other modes are available via command-line options. It supports encryption, compression, and 
+  unlimited subdirectories within a single directory. Old ext2 and ext3 filesystems can be mounted as if 
+  they were ext4 to improve their performance.
+
+Looking at the JFS filesystem
+  Possibly one of the oldest journaling filesystems around, the Journaled File System (JFS) was developed by 
+  IBM in 1990 for its AIX (Advanced Interactive Executive) flavor of Unix. However, it wasn't until its second version 
+  that it was ported to the Linux environment. The JFS filesystem uses the ordered journaling method, storing only 
+  the inode table data in the journal and not removing it until the actual file data is written to the storage device.
+
+Looking at ReiserFS
+  In 2001, Hans Reiser created the first journaling filesystem for Linux, called ReiserFS, which provides 
+  features now found in both ext3 and ext4. Linux has dropped support for the most recent version, Reiser4.
+
+Looking at XFS
+  The X File System (XFS) was created by Silicon Graphics for their (now defunct) advanced graphical workstations. 
+  The filesystem provided some advanced high-performance features that make it still popular in Linux. The XFS 
+  filesystem uses the writeback mode of journaling, which provides high performance but does introduce an 
+  amount of risk because the actual data isn't stored in the journal file.
+
+For filesystems, an alternative to journaling is a technique called copy-on-write (COW). COW offers both 
+  safety and performance via snapshots. For modifying data, a clone or writable snapshot is used. Instead 
+  of writing modified data over current data, the modified data is put in a new filesystem location.
+  Filesystems with COW, snapshot, and volume-management features are gaining in popularity. Two of the 
+  most popular, Btrfs and ZFS,
+
+Looking at the ZFS filesystem
+  The ZFS filesystem was initially released in 2005 by Sun Microsystems for the OpenSolaris operating system. 
+  It began being ported to Linux in 2008 and was finally available for Linux production use in 2012. ZFS is 
+  a stable filesystem that competes well against Resier4, Btrfs, and ext4. It boasts data integrity verification 
+  along with automatic repair, provides a maximum file size of 16 exabytes, and has a 256 quadrillion Zettabytes 
+  maximum storage size. That's one large filesystem! Unfortunately, its biggest detractor is that ZFS does not 
+  have a GNU General Public License (GPL) and thus cannot be included in the Linux kernel. Fortunately, most 
+  Linux distributions provide a way for it to be installed.
+
+Looking at the Btrfs filesystem
+  The Btrfs filesystem (typically pronounced butter-fs) is also called the B-tree filesystem. Oracle started 
+  development on Btrfs in 2007. It was based on many of Reiser4's features but offered improvements in 
+  reliability. Over time, additional developers joined in and helped Btrfs quickly rise toward the top of the 
+  popular filesystems list. This popularity is due to stability and ease of use, as well as the ability to 
+  dynamically resize a mounted filesystem. While the openSUSE Linux distribution established Btrfs as its 
+  default filesystem, in 2017 Red Hat deprecated the fs (as of RHEL version 8 and beyond).
+
+Looking at the Stratis filesystem
+  When Red Hat deprecated Btrfs, the decision was made to create a new filesystem, Stratis. But you 
+  cannot accurately call Stratis a filesystem using the standard definition. Instead, it provides more 
+  of a management perspective. The storage pools it maintains are made up of one or more XFS filesystems. 
+  And it also offers COW functionality like the more traditional volume-management filesystems, such 
+  as ZFS and Btrfs. The terms “ease of use” and “advanced storage features” are often used to describe 
+  it, but at this point, it's too early to tell how close to those concepts Stratis performs.
+
+Linux uses a standard format for assigning device names to hard drives, and you need to 
+  be familiar with the format before partitioning a drive:
+
+SATA drives and SCSI drives: Linux uses /dev/sd x, where x is a letter based on the order in which 
+  the drive is detected (a for the first drive, b for the second, and so on)
+  
+SSD NVMe drives: The device name format is /dev/nvme N n #, where N is
+  a number based on the order in which the drive is detected, starting at 0 . And the # is the number 
+  assigned to the drive's namespace structure, starting at 1 .
+
+IDE drives: Linux uses /dev/hd x, where x is a letter based on the order in
+  which the drive is detected (a for the first drive, b for the second, and so on).
+
+Looking at the fdisk utility
+  The fdisk utility is an older but powerful tool for creating and managing partitions on any drive. 
+  However, fdisk handles only disks up to 2 TB in size. If you have a disk larger than that, 
+  you can use either the gdisk or the GNU parted utility instead.
+
+The gdisk program identifies the type of formatting used on the drive. If the drive doesn't 
+  currently use the GPT method, gdisk offers you the option to convert it to a GPT drive.
+
+One of the selling features of the parted program is that it allows you to modify existing 
+  partition sizes, so you can easily shrink or grow partitions on the drive.
+
+
+The fsck command is used to check and repair most Linux filesystem types,
+  the device must be unmounted before you use fsck on it.
+
+
+Managing Logical Volumes (Adding extra space)
+What would come in handy is a way to dynamically add more space to an existing filesystem by just 
+  adding a partition from another hard drive to the existing filesystem. The Linux Logical Volume 
+  Management or Manager (LVM) allows you to do just that. It provides an easy way for you to
+  manipulate disk space on a Linux system without having to rebuild entire filesystems.
+
+Exploring LVM layout
+  LVM allows multiple partitions to be grouped together and used as a single partition for formatting, 
+  mounting on the Linux virtual directory structure, storing data, and so on. You can also add 
+  partitions to a logical volume as your data needs grow.  LVM has three primary parts: 
+
+Physical volume
+  A physical volume (PV) is created using the LVM's pvcreate command. This utility designates an 
+  unused disk partition (or whole drive) to be used by LVM. The LVM structures, a volume label, 
+  and metadata are added to the partition during this process.
+
+Volume group
+  A volume group (VG) is created using the LVM's vgcreate command, which adds PVs to a storage pool. 
+  This storage pool is used in turn to build various logical volumes. You can have multiple volume 
+  groups. When you use the command to add a PV(s) to a VG, volume group metadata is added to the 
+  PV during this process. A disk's partition, designated as a PV, can only belong to a SINGLE VG. 
+  However, a disk's other partitions, also designated as PVs, can belong to other VGs.
+
+Logical volume
+  A logical volume (LV) is created using the LVM's lvcreate command. This is the final object in 
+  logical volume creation. An LV consists of storage space chunks from a VG pool. It can be 
+  formatted with a filesystem, mounted, and used just like a typical disk partition. While you can 
+  have multiple VGs, each LV is created from only one designated VG. However, you can have multiple 
+  LVs sharing a single VG. You can resize (grow or reduce) an LV using the appropriate LVM
+  commands. This feature adds a great deal of flexibility to your data storage management.
+
+To set up a logical volume for the first time:
+- -     Create physical volumes.
+- -     Create a volume group.
+- -     Create a logical volume.
+- -     Format the logical volume.
+- -     Mount the logical volume.
+
+# You can designate more than one PV during the VG creation process. If you need to 
+  add PVs to a VG at a later time, use the vgextend command.

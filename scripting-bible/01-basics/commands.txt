@@ -173,3 +173,72 @@ $ setfacl -x g:sales test
 # To create a default ACL on a directory start the rule with d:
 $ sudo setfacl -m d:g:sales:rw /sales
 
+
+
+
+
+
+──────────────────────────────────────────────────────────────────────
+ Linux File System
+──────────────────────────────────────────────────────────────────────
+# list available partitions
+$ sudo fdisk -l 
+
+# create a new partition 
+$ sudo fdisk /dev/sdb    # or nv + n  (see file-system.txt/partitioning format )
+
+# create a new partition (for drives that use the GUID Partition Table (GPT) indexing method)
+$ sudo gdisk /dev/sda
+
+# create a file system   (see also mkfs.x  where x is i.e ext3 or .... )
+$ sudo mkfs.ext4 /dev/sdb1
+
+# After you create the filesystem for a partition, the next step is to mount it on a virtual 
+  directory mount point so that you can store data there. You can mount the new filesystem anywhere 
+  in your virtual directory where you need the extra space.
+$ mkdir /home/user/part
+$ sudo mount -t ext4 /dev/sdb1 /home/user/part
+$ lsblk -f /dev/sdb        # check
+
+──────────────────────────────────────────────────────────────────────
+NOTE NOTE NOTE: 
+  This method of mounting a filesystem only temporarily mounts the filesystem. When you reboot 
+  your Linux system, the filesystem doesn't automatically mount. To force Linux to automatically
+  mount the new filesystem at boot time, add the new filesystem to the /etc/fstab file. 
+──────────────────────────────────────────────────────────────────────
+
+Creating logical volumes using logical volumes manager LVM
+
+# first Create the PVs (phisical volume)
+$ sudo pvcreate /dev/sdc1 /dev/sdd1 /dev/sde1
+
+# display existing volume groups
+$ sudo vgdisplay
+
+# second create the volume group 
+$ sudo vgcreate vg00 /dev/sdc1 /dev/sdd1
+
+# third Create an LV:  The resulting storage volume's size is set using the -L option, 
+  which uses space from the designated VG storage pool:
+$ sudo lvcreate -L 1g -v vg00
+  [sudo] password for username:
+  Archiving volume group "vg00" metadata (seqno 1).
+  Creating logical volume lvol0 ...
+  Logical volume "lvol0" created.
+# Notice that the first LV from this VG's default name is lvol0. 
+  Its full device pathname is /dev/vg00/lvol0.
+
+# check the create logical volume   # or use:  lvs | lvscan  commands  
+$ sudo lvdisplay /dev/vg00/lvol0
+
+# forth format it
+$ sudo mkfs.ext4 /dev/vg00/lvol0
+
+# mount it 
+$ mkdir my_LV
+$ sudo mount -t ext4 /dev/vg00/lvol0 my_LV
+
+# finally again: Keep in mind that you'll want to add a record to the /etc/fstab file so that 
+  your new LV is mounted automatically when the system boots
+
+

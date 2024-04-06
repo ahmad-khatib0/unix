@@ -1,0 +1,61 @@
+
+# grep pipes a list of regular users from the /etc/passwd file and displays the sixth field (-f6) as delimited by 
+  a colon (-d':'). The hyphen at the end tells cut to read from standard input (from the pipe):
+  
+$ grep /home /etc/passwd | cut -d':' -f6 -
+$ sed -n '/home/p' /etc/passwd                 # same result using sed (The stream editor)
+
+# replaces every instance of the string Mac with Linux
+$ sed 's/Mac/Linux/g' somefile.txt > fixed_file.txt
+$ cat somefile.txt | sed 's/Mac/Linux/g' > fixed_file.txt    # same result
+
+# searches the somefile.txt file and replaces extra blank spaces at the end of each line (s/ *$) with nothing (//)
+$ cat somefile.txt | sed 's/ *$//' > fixed_file.txt
+
+
+#  If you become the root user by just typing su, rather than su -, you
+   don’t change directories or the environment of the current login session: 
+$ su - 
+
+# You can also use the su command to become a user other than root. This is useful for troubleshooting a problem that 
+  is being experienced by a particular user but not by others on the computer (such as an inability to print or send email)
+$ su - jsmith
+
+# cause the user named joe to have full root privilege: 
+  1- As the root user, edit the /etc/sudoers file by running the visudo command:
+     # /usr/sbin/visudo
+  2- Add the following line to allow joe to have full root privileges on the computer:
+     # joe ALL=(ALL) ALL             # or allow joe user to have sudo privileges without providing the password:
+     # joe ALL=(ALL) NOPASSWD: ALL
+
+
+# using journalctl to see systemd logs:
+$ journalctl --list-boots | head
+$ journalctl _SYSTEMD_UNIT=sshd.service
+$ journalctl PRIORITY=0
+
+# system boot up logs
+$ dmesg | less
+
+# The lspci command lists PCI buses on your computer and devices connected to them. Here’s a snippet of output:
+$ lspci
+
+# lists information about the computer’s USB hubs along with any USB devices con- nected
+$ lsusb
+
+# see details about your processor
+$ lscpu
+
+# which modules are currently loaded into the running kernel 
+$ lsmod
+
+# find information about any of the loaded modules
+$ /sbin/modinfo -d e1000    # e1000 is a module (a network interface card)
+
+# using modprobe to load the parport module, which provides the core functions to share 
+  parallel ports with multiple devices
+$ modprobe parport
+
+# remove a module from a running kernel
+$ rmmod parport_pc
+

@@ -48,6 +48,3 @@ Metacharacters include the pipe character (|), ampersand (&), semicolon (;), rig
   left parenthesis ((), less than sign (<), and greater than sign (>)
 
 
-
-
-

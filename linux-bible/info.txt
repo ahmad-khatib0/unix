@@ -47,4 +47,80 @@ shell history is stored permanently when the shell exits properly, you can preve
 Metacharacters include the pipe character (|), ampersand (&), semicolon (;), right parenthesis ()), 
   left parenthesis ((), less than sign (<), and greater than sign (>)
 
+Storing YUM repository metadata to local RPM database. 
+  The metadata contained in each RPM package that is installed is ultimately copied into the local RPM database. 
+  The RPM database is contained in files that are stored in the /var/lib/rpm directory.
+
+Using YUM with third-party software repositories
+   I recommend that you either (1) don’t enable any extra software repositories, or (2) enable only the RPM Fusion 
+   repository (http://rpmfusion.org) at first for Fedora and the EPEL repository (http://fedoraproject.org/wiki/EPEL) for Red
+  Hat Enterprise Linux. RPM Fusion represents a fusion of several popular third-party Fedora repositories (Freshrpms, 
+  Livna.org, and Dribble). See the repository’s FAQ for details (http://rpmfusion.org/FAQ).
+
+Verifying RPM packages
+  Using the -V option, you can check the packages installed on your system to see if the components have been changed 
+  since the packages were first installed. Although it is nor- mal for configuration files to change over time, it is 
+  not normal for binaries (the commands in /bin, /sbin, and so on) to change after installation. Binaries that are 
+  changed are probably an indication that your system has been cracked.   example:
+
+# rpm -i zsh-5.7.1-1.fc30.x86_64.rpm
+# echo hello > /bin/zsh                # miss with it
+# rm /etc/zshrc                        # miss with it
+# rpm -V zsh                           # Verifying
+missing c /etc/zshrc 
+S.5....T. /bin/zsh                     # /bin/zsh file has been tampered with
+ +-----------------------------------------------------------------------------------------------------+
+ |                                                                                                     |
+ | Each time that you see a letter or a number instead of a dot from the rpm -V output, it is an       |
+ | indication of what has changed. Letters that can replace the dots (in order) include the following: |
+ | S       file Size differs                                                                           |
+ | M       Mode differs (includes permissions and file type)                                           |
+ | 5       MD5 sum differs                                                                             |
+ | D       Device major/minor number mismatch                                                          |
+ | L       readLink(2) path mismatch                                                                   |
+ | U       User ownership differs                                                                      |
+ | G       Group ownership differs                                                                     |
+ | T       mTime differs                                                                               |
+ | P       caPabilities differ                                                                         |
+ |                                                                                                     |
+ |                                                                                                     |
+ +-----------------------------------------------------------------------------------------------------+
+
+# To restore the package to its original state (missied with. cracked etc.)
+# rpm -i --replacepkgs zsh-5.7.1-1.fc30.x86_64.rpm
+# rpm -V zsh                            # no output
+
+It is good practice to back up your RPM database (from /var/lib/rpm) and copy it to some read-only medium 
+  (such as a CD). Then, when you go to verify packages that you suspect were cracked, you know that you 
+  aren’t checking it against a database that has also been cracked.
+
+
+Managing Software in the Enterprise
+  In terms of enterprise computing, one of the great benefits of the design of RPM packages is that their management can 
+  be automated. Other Linux packaging schemes allow packages to stop and prompt you for information when they are being 
+  installed (such as asking for a 10 directory location or a username). RPM packages install without interruption, 
+  offering some of the following advantages:
+  
+-- Kickstart files All of the questions that you answer during a manual install, and all of the packages that you select, 
+   can be added into a file called a kickstart file. When you start a Fedora or Red Hat Enterprise Linux installer, 
+   you can provide a kickstart file at the boot prompt. From that point on, the entire installation process completes 
+   on its own. Any modifications to the default package installs can be made by running pre and post scripts from the 
+   kickstart file to do such things as add user accounts or modify configuration files.
+   
+-- PXE boot You can configure a PXE server to allow client computers to boot an anaconda (installer) kernel and a 
+   select kickstart file. A completely blank computer with a network interface card (NIC) that supports PXE booting 
+   can simply boot from its NIC to launch a fresh installation. In other words, turn on the computer, and if it hits 
+   the NIC in its boot order, a few minutes later you can have a freshly installed system, configured to your exact 
+   specifications without intervention.
+   
+-- Satellite server (Spacewalk) Red Hat Enterprise Linux systems can be deployed using what is referred to as Satellite 
+   Server. Built into Satellite Server are the same features that you have from Red Hat CDN to manage and deploy new 
+   systems and updates. RHEL systems can be configured to get automatic software updates at times set from the satellite 
+   server. Sets of packages called Errata that fix specific problems can be quickly and automatically deployed to the 
+   systems that need them. Container Images Instead of installing individual RPMs on a system, you can package up a 
+   few or a few hundred RPMs into a container image. The container image is like an RPM in that it holds a set of 
+   software, but unlike an RPM in that it is more easily added to a system, run directly, and deleted from a 
+   system than an RPM is.
+
+
 

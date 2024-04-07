@@ -59,3 +59,60 @@ $ modprobe parport
 # remove a module from a running kernel
 $ rmmod parport_pc
 
+# find out the name of an RPM package currently installed on your system
+$ rpm -q firefox     # ->>> i.e  firefox-67.0-4.fc30.x86_64   # Fedora 30 (fc30)
+
+# rpm command to query that local RPM database
+$ rpm -qi firefox
+
+
+# yum commands 
+$ yum search editor
+$ yum info emacs
+$ yum provides dvdrecord          # i.e this dvdrecord is part of wodim package
+$ yum list emacs
+$ yum list available
+$ yum list installed
+$ yum list all
+$ yum deplist emacs | less       # what components that package is dependent on
+$ yum reinstall zsh
+$ yum remove emacs               # remove a single pkg, along with its dependencies that aren’t required by other packages
+$ yum history                    # Using history, you can see your yum activities and undo an entire transaction!
+$ yum history info 12            # check what was done
+$ yum history undo 12            # undo the entire transaction
+$ yum check-update
+$ yum update                     # or only:  yum update cups
+$ yum grouplist | less           # to manage a whole set of packages at once, YUM supports package groups
+$ yum groupinfo LXDE             # check info about this group
+$ yum groupinstall LXDE          # install group of packages at once
+$ yum groupremove LXDE           # remove
+$ yum check                      # check database status
+$ rpm --rebuilddb                # rebuild the db , i.e in case of curruption
+
+# If you just want to examine a package without actually installing it
+$ yumdownloader firefox          # will be downloaded in the current dir, or:
+$ dnf download firefox           # same
+
+# install rpm pkg from file
+$ rpm -i zsh-5.5.1-6.el8.x86_64.rpm
+$ rpm -Uhv zsh-5.5.1-6.el8.x86_64.rpm          # upgrade  (h for hash sign, v for verbose)
+# freshen install (-F): installs a package only if an existing, earlier version of a package is installed on the computer
+$ rpm -Fhv *.rpm
+$ rpm -Uhv --replacepkgs emacs-26.1-5.el8.x86_64.rpm    # reinstall an existing version of a package
+$ rpm -Uhv --oldpackage zsh-5.0.2-25.el7_3.1.x86_64.rpm # replace a newer package with an earlier version
+$ rpm -e emacs                    # remove
+$ rpm -qi zsh                     # info
+$ rpm -ql zsh                     # files of this pkg
+$ rpm -qd zsh                     # doc files
+$ rpm -qc zsh                     # config files
+$ rpm -q --requires emacs-common  # what an RPM needs for it to be installed
+$ rpm -q --provides emacs-common  # what version of software a package provides
+$ rpm -q --scripts httpd          # what scripts are run before and after an RPM is installed or removed
+$ rpm --querytags | less          # see all of the tags that are available (this feature is called --queryformat)
+$ rpm -q binutils --queryformat "The package is %{NAME} and the release is %{RELEASE}"
+
+$ rpm -qip zsh-5.7.1-1.fc30.x86_64.rpm    #  View info about the RPM file
+$ rpm -qlp zsh-5.7.1-1.fc30.x86_64.rpm    #  List all files in the RPM file
+$ rpm -qdp zsh-5.7.1-1.fc30.x86_64.rpm    #  Show docs in the RPM file
+$ rpm -qcp zsh-5.7.1-1.fc30.x86_64.rpm    #  List config files in the RPM file
+

@@ -1,0 +1,23 @@
+
+Keeping up with security news: 
+  There are quite a few websites that specialize in network security news. Examples include Packet Storm Security 
+  and The Hacker News. Regular tech news sites and Linux news websites, such as Ars Technica, Fudzilla, The 
+  Register, ZDNet, and LXer
+
+A lot of those updates require that the system be rebooted before they can take effect. By default, Ubuntu 
+  systems don’t automatically reboot after an update is installed. If you keep it that way, you’ll see a message 
+  about it when you log into the system. But if you prefer, you can set Ubuntu to automatically reboot after it 
+  automatically updates itself. Here’s how to do it:
+1. Go into the /etc/apt/apt.conf.d directory and open the 50unattended-upgrades file , In the vicinity of 
+   line 67, you’ll see a line that says:  
+   //Unattended-Upgrade::Automatic-Reboot "false";
+Uncomment the line by removing the leading slashes, and change false to true, like so:
+   Unattended-Upgrade::Automatic-Reboot "true";
+
+To disable automatic updates, just go into the /etc/apt/apt.conf.d directory and open the 20auto-upgrades
+  chagne: APT::Periodic::Unattended-Upgrade "1"; to 0
+
+The main functional difference between yum and dnf is that dnf has a different automatic update mechanism. 
+  Instead of installing the yum-cron package, you’ll now install the dnf-automatic package, like so:
+  sudo dnf install dnf-automatic
+

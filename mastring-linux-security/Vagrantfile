@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+#
+
+Vagrant.configure(2) do |cfg|
+  ##
+  ##
+  boxes = [
+    # { name: 'centos7', ip: '192.168.56.14', image: 'centos/7', cpus: 2, memory: 4096 },
+    { name: 'ubuntu22', ip: '192.168.56.15', image: 'bento/ubuntu-22.04', cpus: 2, memory: 4096 },
+    { name: 'almalinux8', ip: '192.168.56.16', image: 'almalinux/8', cpus: 2, memory: 4096 },
+    { name: 'almalinux9', ip: '192.168.56.17', image: 'almalinux/9', cpus: 2, memory: 4096 }
+  ]
+
+  cfg.ssh.forward_agent = true
+
+  boxes.each do |box|
+    cfg.vm.define box[:name] do |b|
+      b.vm.box = box[:image]
+      b.vm.hostname = box[:name]
+      b.vm.network 'private_network', ip: box[:ip]
+      b.vm.synced_folder '.', '/vagrant', disabled: true
+
+      b.vm.provider :virtualbox do |vb|
+        vb.gui = false
+        vb.name = box[:name]
+        vb.customize ['modifyvm', :id, '--memory', box[:memory]]
+        vb.customize ['modifyvm', :id, '--audio', 'none']
+        vb.customize ['modifyvm', :id, '--cpus', box[:cpus]]
+      end
+
+      b.vm.provision 'shell', path: './provision/ubuntu.sh' if box[:name] == 'ubuntu22'
+
+      if box[:name] == 'almalinux8' || box[:name] == 'almalinux9'
+        b.vm.provision 'shell', path: './provision/almalinux.sh'
+      end
+    end
+  end
+end

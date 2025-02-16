@@ -187,13 +187,12 @@ For a regular file, a dash appears in front of the nine-bit permissions indicato
   c (for a character device), s (for a socket), or p (for a named pipe).
 
 
-Each permission (read, write, and execute) is assigned a number: r=4, w=2, and x=1 
-  and you use each set’s total number to establish the permission. For example, to make permissions 
-  wide open for yourself as owner, you would set the first number to 7 (4+2+1), and then you would 
-  give the group and others read-only permission by setting both the second and third numbers 
-  to 4 (4+0+0), so that the final number is 744. Any combination of permissions can result 
-  from 0 (no permission) through 7 (full permission).
-
+Each permission (read, write, and execute) is assigned a number: r=4, w=2, and x=1 and you use each 
+  set’s total number to establish the permission. For example, to make permissions wide open for 
+  yourself as owner, you would set the first number to 7 (4+2+1), and then you would give the group 
+  and others read-only permission by setting both the second and third numbers to 4 (4+0+0), so that
+  the final number is 744. Any combination of permissions can result from 0 (no permission) through 
+  7 (full permission).
 
 Setting default file permission with umask
   When you create a file as a regular user, it’s given permission rw-rw-r-- by default. A
@@ -208,11 +207,4 @@ If you ignore the leading zero for the moment, the umask value masks what is con
   permission of 644 (rw-rw-r--). (Execute permissions are off by default for regular files.)
   To change your umask value temporarily, run the umask command. Then try creating some files 
   and directories to see how the umask value affects how permissions are set.
-
-
-
-
-
-
-
 

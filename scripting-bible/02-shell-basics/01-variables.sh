@@ -1,4 +1,12 @@
 #!/bin/bash
+# e: Exit immediately on error 
+# u: Treat unset variables as an error 
+# o: -o pipefail (Fail on errors in pipelines) . By default, Bash only returns the exit 
+#    status of the last command in a pipeline. This option ensures that the entire pipeline 
+#    fails if any command in the pipeline fails. Without this option, a pipeline like 
+#    command1 | command2 would only fail if command2 fails, even if command1 fails.
+# 
+set -euo pipeline
 
 # display user information from the system.
 echo "user info for the user id: $USER"

@@ -1,0 +1,29 @@
+- In Linux, each process has three standard streams:
+  0: Standard Input (stdin)
+  1: Standard Output (stdout) – Used for normal command output.
+  2: Standard Error (stderr) – Used for error messages.
+    
+- What 2>&1 Does? 
+  2>: Redirects the stderr (file descriptor 2).
+  &1: Refers to the stdout (file descriptor 1).
+
+- When you use 2>&1, it tells the shell to redirect the stderr stream to the same location 
+  as the stdout stream.
+
+- Common Use Cases
+  a. Redirect Both stdout and stderr to a File
+     If you want to save both the normal output and error messages to a file, you can use 2>&1:
+        $ command > output.log 2>&1      -> ls /nonexistent > output.log 2>&1
+  b. Pipe Both stdout and stderr to Another Command
+     If you want to pipe both stdout and stderr to another command, you can use 2>&1:
+        $ command 2>&1 | grep "error"    ->  ls /nonexistent 2>&1 | grep "No such file"
+     # This will search for the string "No such file" in both the normal output and error messages.
+  c. Suppress stderr
+     If you want to discard error messages (send them to /dev/null), you can use:
+        $ command 2> /dev/null           ->  ls /nonexistent 2> /dev/null
+     # 2> /dev/null: Redirects stderr to /dev/null, effectively discarding it.
+
+NOTE: Order Matters
+  - command > output.log 2>&1: Redirects both stdout and stderr to output.log.
+  - command 2>&1 > output.log: Redirects stderr to the current location of stdout (usually the terminal), 
+    and then redirects stdout to output.log. This is usually not what you want.

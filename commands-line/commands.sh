@@ -1,39 +1,46 @@
 alias d= "date"
 # -u/--universal
-alias n= "ncal"# or : cal => calendar
+
+alias n= "ncal"# or : cal = >calendar
 # -M | -j | -h | -3 | ncal -3hMJ | -A2 | -B5
 # A2 B | => B=before A=after
+
 alias sort= "sort"
 # -r/--reverse filename|filename --reverse --unique/-ru
+
 alias type="type clear"#/mkdir/ls :clear is /usr/bin/clear
 # /type cd => cd is a shell builtin /  type lara => lara is an alias for cd /mnt/c/laragon/www
+
 alias which= "which kgs" # => kgs: aliased to kubectl get services
-alias help="help cd" #to see info about builtin commands that doesn't have manual
+alias help="help cd"     #to see info about builtin commands that doesn't have manual
 alias whoami= "whoami"
 alias who="who"
 alias root-dir="xdg-open /"
-alias lsh="ls -alh"# -l sort=time|size
+alias lsh="ls -alh"# -l sort=time | size
 alias file="file"#
 alias rm="rmdir"# r | i | f
-alias mv="mv source destintion"#mv folder file folder file.... =>move them step backward
+alias mv="mv source destintion"#mv folder file folder file.... = them step backward >move
 alias cp="cp source destination"# -r
-alias history= "history | less"#|just: !number => retrieve the command
+alias history= "history | less"# | just: !number = the command >retrieve
 alias history-size="echo $HISTORYFILESIZE"
 alias history-session-size="echo $HISTOYSIZE"
 alias cat= "cat" #cat ~/.bash_history
 alias tac="tac filename"#print the file recursively
 alias less="less filename"# is better than cat for the long content files
-alias rev="rev filename" #reverse the characters in the lines
+alias rev="rev filename"   #reverse the characters in the lines
 alias head="head filename" #print the first 10 lines of beginning of a file
+
 alias head="tail filename" #print the last 10 lines of end of a file
-#-n number (for head or tail ) => how many lines | -c number => how many bytes | -f => its for tail
+# -n number (for head or tail ) => how many lines | -c number => how many bytes | -f => its for tail
 # and its usful to listen to events that occurring in your computer like: tail -f syslog
+
 alias wc="wc filename"#-l | -w | -m | -c
 alias sort="sort filename " # -r | -n | -u | kNumber => column number
 
 # sort -k5n list.txt > sorted_list.txt => redirect some part of file to new file
 #  date >> filename.txt => >> means append
-# cat < file.txt => it's the opsite of: cat > random.txt : in this case cat the file.txt to the input
+# cat < file.txt => it's the opsite of: cat > random.txt : in this case cat the file.txt
+# to the input
 # cat < dog.txt >> cat.txt  => take what inside dog , and append it to cat.txt file
 #  ls dlkfksdl 2> error.log => redirect error to another file  || ls dlkfksdl 2>> error.log => append
 #  cat calder-of-2021 cat.txt dog.txt > all.txt 2>> error.log  => multiple files
@@ -57,11 +64,12 @@ alias sort="sort filename " # -r | -n | -u | kNumber => column number
 #  220  295  2401  in termenal and in  collection.txt , so we didn't get what we want
 #  head -n 151 all-pokemon.txt | tr -d 0-9 | sort > orgininal-151.txt
 
-alias *="echo *.txt"#ls | cat ....
-alias **="echo *ts*"# ls | cat .... any file has ts in it
-alias ?="ls app?.css"# | mv *.??? Styles/ => any js won't be include
-# any file has just one character after app , and sure has ext .css , note: app.css won't be include
-alias []="echo app.[123].css"#|[1-3] ... app4.css won\'t be included
+# alias *="echo *.txt"#ls | cat ....
+# alias **="echo *ts*"# ls | cat .... any file has ts in it
+# alias ?="ls app?.css" # | mv *.??? Styles/ => any js won't be include
+# # any file has just one character after app , and sure has ext .css ,
+#   note: app.css won't be include
+# alias []="echo app.[123].css"#|[1-3] ... app4.css won\'t be included
 
 #[A-Z] will look on just files contained of one letter only , while [A-Z]*   will match all uppercase folders
 #note: we can to have multiple ranges: [A-H]*[pc]
@@ -74,19 +82,21 @@ alias []="echo app.[123].css"#|[1-3] ... app4.css won\'t be included
 # each folder will contain thoes meals
 # mkdir {Mon, Tue{1..15}{AM,PM} ,Wed} => nested brace
 
-alias (())="echo $((12/2**(4+4)))"# + | - | ** | %
+# alias (())="echo $((12/2**(4+4)))"# + | - | ** | %
 
 echo "hello i'm here              $(date)"
 # hello i'm here              Tue Jun 15 23:51:04 +03 2021
+
 echo 'hello i am here              $(date)'
 # hello i am here              $(date)
-echo hello there $(whoami)   or   echo hello there `whoami`
+
+echo hello there $(whoami) or echo hello there $(whoami)
 # hello there ahmadkhatib
 
-alias ls="ls -l"#lc => mtime | lc => ctime | lu => atime
+alias ls="ls -l"#lc = >mtime | lc = >ctime | lu = >atime
 alias touch="touch last_week -d "1 week ago""#
 
-alias find="find -mmin -30"#or +30/30 |  -amin number | -mtime number | atime number  | ctime number
+alias find="find -mmin -30"#or +30/30 | -amin number | -mtime number | atime number | ctime number
 # find ~ -not -name "*.txt*"     find ~ -mmin -60 -not -name "*.txt*"     ...or ! shorter wat to -not
 # find ~ -mmin -60 -not -name "*.txt*"     find ~ -type f -empty -exec ls -l '{}' ';'
 # find -empty -ok rm  '{}' ';'  => this ok arg , to ask you for confermation
